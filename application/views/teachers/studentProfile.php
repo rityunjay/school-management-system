@@ -191,65 +191,81 @@ ul li{
     
     <!-- Nav -->
     <nav class="profile-nav">
-      <ul id="pills-tab" role="tablist">
-        <li class="active"><a href="<?php echo base_url('/teachers/studentProfile/'.$stds['id']); ?>">Home</a></li>
-        <li><a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Attendance Record</a></li>
-        <li><a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Personal Details</a></li>
-        <li><a id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Parents Details</a></li>
-        <li><a href="#">Site Setting</a></li>
-      </ul>
-      <!-- <ul class="nav nav-pills nav-pills-success" id="pills-tab" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
-                      </li>
-                    </ul> -->
+      <ul class="nav nav-tabs" role="tablist">
+                     <li class="">
+                        <a class="active" data-toggle="tab" href="#home-h" role="tab" aria-controls="home">Home</a>
+                     </li>
+                     <li class=""><a class="" data-toggle="tab" href="#personal-h" role="tab" aria-controls="personal">Personal Details</a></li>
+                     <li class=""><a class="" data-toggle="tab" href="#parents-h" role="tab" aria-controls="parents">Parents Details</a></li>
+                     <li class=""><a class="" data-toggle="tab" href="#attendance-h" role="tab" aria-controls="attendance">Attendance Record</a></li>
+                  </ul>
     </nav>
     
     <!-- Wil hyped X-->
     <div class="unit user-hyped">
-      
+          <div class="tab-content">
+                     <div class="tab-pane active" id="home-h" role="tabpanel">
+                      <div class="sv-tab-panel">
+                        
+                        
 
-      <div class="tab-content" id="pills-tabContent">
-                      <div class="tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                        <div class="media">
-                          <img class="mr-3 w-25 rounded" src="../../../assets/images/samples/300x300/12.jpg" alt="sample image">
-                          <div class="media-body">
-                            <h5 class="mt-0">I'm doing mental jumping jacks.</h5>
-                            <p>Only you could make those words cute. Oh I beg to differ, I think we have a lot to discuss. After all, you are a client. I am not a killer. I feel like a jigsaw puzzle missing a piece. And I'm not even sure what the picture should be.</p>
-                          </div>
-                        </div>
                       </div>
-                      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                        <div class="media">
-                          <img class="mr-3 w-25 rounded" src="../../../assets/images/samples/300X300/10.jpg" alt="sample image">
-                          <div class="media-body">
-                            <p>I'm thinking two circus clowns dancing. You? Finding a needle in a haystack isn't hard when every straw is computerized. Tell him time is of the essence. Somehow, I doubt that. You have a good heart, Dexter.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                        <div class="media">
-                          <img class="mr-3 w-25 rounded" src="../../../assets/images/samples/300x300/14.jpg" alt="sample image">
-                          <div class="media-body">
-                            <p> I'm really more an apartment person. This man is a knight in shining armor. Oh I beg to differ, I think we have a lot to discuss. After all, you are a client. You all right, Dexter? </p>
-                            <p> I'm generally confused most of the time. Cops, another community I'm not part of. You're a killer. I catch killers. Hello, Dexter Morgan. </p>
-                          </div>
+                    </div>
+                     <div class="tab-pane" id="personal-h" role="tabpanel">
+                      <div class="sv-tab-panel">
+                        <div class="table-responsive border rounded p-1">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th class="font-weight-bold">First Name</th>
+                                <th class="font-weight-bold">Last Name</th>
+                                <th class="font-weight-bold">Email</th>
+                                <th class="font-weight-bold">Created at</th>
+                                <th class="font-weight-bold">Modified at</th>
+                                <th class="font-weight-bold">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><?php echo $stds['first_name']; ?></td>
+                                <td><?php echo $stds['last_name']; ?></td>
+                                <td><?php echo $stds['email']; ?></td>
+                                <td><?php echo $stds['created']; ?></td>
+                                <td><?php echo $stds['modified']; ?></td>
+                                <td>
+                                  <?php if ($stds['status'] ==1) {
+                                    echo '<div class="badge badge-success p-2">Active</div>';
+                                  }else{ echo '<div class="badge badge-danger p-2">Pending</div>'; } ?>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <hr>
+                          <!-- <table class="table">
+                            <thead>
+                              <tr>
+                                <th class="font-weight-bold">Roll No.</th>
+                                <th class="font-weight-bold">Class</th>
+                                <th class="font-weight-bold">Section</th>
+                                <th class="font-weight-bold">Session</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><?php echo $stds['roll']; ?></td>
+                                <td><?php echo $stds['class']; ?></td>
+                                <td><?php echo $stds['section']; ?></td>
+                                <td><?php echo $stds['session']; ?></td>
+                                
+                              </tr>
+                            </tbody>
+                          </table> -->
                         </div>
                       </div>
                     </div>
-
-
-
-              
-
-
-
+                     <div class="tab-pane" id="parents-h" role="tabpanel"><div class="sv-tab-panel">Messages  Panel</div></div>
+                     <div class="tab-pane" id="attendance-h" role="tabpanel"><div class="sv-tab-panel">Settings Panel</div></div>
+                  </div>
 
     </div>
     
