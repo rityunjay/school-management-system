@@ -25,21 +25,17 @@
                     <?php echo form_error('last_name','<p class="text-danger">','</p>'); ?>
                   </div>
 
-                  <!-- <div class="form-group">
-                    <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" value="<?php echo !empty($principal['email'])?$principal['email']:''; ?>">
-                    <?php echo form_error('email','<p class="text-danger">','</p>'); ?>
-                  </div> -->
                   <div class="form-group">
                     <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" value="<?php echo set_value('email');?>">
                     <?php echo form_error('email','<p class="text-danger">','</p>'); ?>
                   </div>
                   
-                  <div class="form-group row">
+                 <div class="form-group row">
                     <?php foreach($principals as $row){ ?>
                     <div class="col-sm-3">
                       <div class="form-check">
                         <label class="form-check-label" style="text-transform: capitalize;">
-                          <input type="radio" class="form-check-input" name="desigID" id="<?php echo $row['desigName']; ?>" value="<?php echo $row['id']; ?>" > <?php echo $row['desigName']; ?> <i class="input-helper"></i>
+                          <input type="radio" class="form-check-input" name="desigName" id="<?php echo $row['id']; ?>" value="<?php echo $row['desigName']; ?>" > <?php echo $row['desigName']; ?> <i class="input-helper"></i>
                         </label>
                         <?php echo form_error('desigID','<p class="text-danger">','</p>'); ?>
                       </div>

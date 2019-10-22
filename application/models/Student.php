@@ -7,6 +7,7 @@ class Student extends CI_Model{
         // Set table name
         $this->table = 'gt_students';
         $this->stdClass ='gt_stdClass';
+        $this->parentsTable ='gt_studentParents';
     }
     
     /*
@@ -14,13 +15,14 @@ class Student extends CI_Model{
      * @param array filter data based on the passed parameters
      */
     function getRows($params = array()){ 
-        $this->db->select('*'); 
-        $this->db->from($this->table); 
+        /*$this->db->select('*'); 
+        $this->db->from($this->table); */
 
 
-        /*$this->db->select('*');
+        $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->join($this->stdClass, '$this->stdClass.stdID = $this->table.id');*/
+        $this->db->join($this->stdClass, 'gt_stdClass.stdID = gt_students.id');
+        $this->db->join($this->parentsTable, 'gt_studentParents.sid = gt_students.id');
 
 
          
@@ -35,12 +37,12 @@ class Student extends CI_Model{
         }else{ 
             if(array_key_exists("id", $params) || $params['returnType'] == 'single'){ 
                 if(!empty($params['id'])){ 
-                    $this->db->where('id', $params['id']); 
+                    $this->db->where('gt_stdClass.id', $params['id']); 
                 } 
                 $query = $this->db->get(); 
                 $result = $query->row_array(); 
             }else{ 
-                $this->db->order_by('id', 'desc'); 
+                $this->db->order_by('gt_students.id', 'desc'); 
                 if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
                     $this->db->limit($params['limit'],$params['start']); 
                 }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 

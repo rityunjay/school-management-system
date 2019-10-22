@@ -178,12 +178,12 @@ ul li{
   <section class="left-col user-info">
     <div class="profile-avatar">
       <!-- <div class="inner"></div> -->
-      <img src="<?php echo base_url('/assets/images/faces/'.$stds['profilePic']); ?>" class="inner">
+      <img src="<?php echo base_url('/assets/images/faces/'.$teachs['profilePic']); ?>" class="inner">
     </div>
     <div class="left-side">
 
-    <h2 class="card-title mb-0 font-weight-bold mt-2" style="text-transform: capitalize;"><b><?php echo $stds['first_name']; ?> <?php echo $stds['last_name']; ?></b></h2>
-    <small class="d-block text-muted font-weight-semibold mb-0"><?php echo $stds['email']; ?></small>
+    <h2 class="card-title mb-0 font-weight-bold mt-2" style="text-transform: capitalize;"><b><?php echo $teachs['first_name']; ?> <?php echo $teachs['last_name']; ?></b></h2>
+    <small class="d-block text-muted font-weight-semibold mb-0"><?php echo $teachs['email']; ?></small>
     <small class="d-block text-muted font-weight-semibold mb-0 mt-2"></small>
     </div>
   </section>
@@ -222,60 +222,53 @@ ul li{
                         <hr>
                     </div>
                 </div>
+                <!-- <div class="form-group row">
+                    <?php foreach($principals as $row){ ?>
+                    <div class="col-sm-3">
+                      <div class="form-check">
+                        <label class="form-check-label" style="text-transform: capitalize;">
+                          <input type="radio" class="form-check-input" name="desigID" id="<?php echo $row['desigName']; ?>" value="<?php echo $row['id']; ?>" > <?php echo $row['desigName']; ?> <i class="input-helper"></i>
+                        </label>
+                        <?php echo form_error('desigID','<p class="text-danger">','</p>'); ?>
+                      </div>
+                    </div>  
+                    <?php } ?>
+                  </div> -->
                 <div class="row">
                     <div class="col-md-12">
                         <div>
                               <div class="form-group row">
                                 <label for="username" class="col-4 col-form-label">First Name</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['first_name']; ?>" class="form-control here" readonly type="text">
+                                  <input value="<?php echo $teachs['first_name']; ?>" class="form-control here" readonly type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="name" class="col-4 col-form-label">Last Name</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['last_name']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['last_name']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Email</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['email']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['email']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Mobile</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['mobile']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['mobile']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Gender</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['gender']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['gender']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
 
-                              <div class="form-group row">
-                                <label for="lastname" class="col-4 col-form-label">Class</label> 
-                                <div class="col-8">
-                                  <input value="<?php echo $stds['class']; ?>" class="form-control here" type="text" readonly>
-                                </div>
-                              </div>
-
-                              <div class="form-group row">
-                                <label for="lastname" class="col-4 col-form-label">Section</label> 
-                                <div class="col-8">
-                                  <input value="<?php echo $stds['section']; ?>" class="form-control here" type="text" readonly>
-                                </div>
-                              </div>
-
-                              <div class="form-group row">
-                                <label for="lastname" class="col-4 col-form-label">Session</label> 
-                                <div class="col-8">
-                                  <input value="<?php echo $stds['session']; ?>" class="form-control here" type="text" readonly>
-                                </div>
-                              </div>
+                              
                               
                         </div>
                     </div>
@@ -299,51 +292,51 @@ ul li{
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div>
+                        <!-- <div>
                               <div class="form-group row">
                                 <label for="username" class="col-4 col-form-label">Father Name</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['father_name']; ?>" class="form-control here" readonly type="text">
+                                  <input value="<?php echo $teachs['father_name']; ?>" class="form-control here" readonly type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="name" class="col-4 col-form-label">Mother Name</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['mother_name']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['mother_name']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Father Email</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['f_email']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['f_email']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Father Mobile</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['f_mobile']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['f_mobile']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Father Occupation</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['father_occupation']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['father_occupation']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Mother Occupation</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $stds['mother_occupation']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $teachs['mother_occupation']; ?>" class="form-control here" type="text" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="publicinfo" class="col-4 col-form-label">Address</label> 
                                 <div class="col-8">
-                                  <textarea cols="40" rows="4" class="form-control" readonly=""><?php echo $stds['address']; ?></textarea>
+                                  <textarea cols="40" rows="4" class="form-control" readonly=""><?php echo $teachs['address']; ?></textarea>
                                 </div>
                               </div>
                               
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 

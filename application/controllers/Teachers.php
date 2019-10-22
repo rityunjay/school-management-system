@@ -42,6 +42,30 @@ class Teachers extends CI_Controller {
         } 
     }
 
+    /* teachert-profile */
+    public function teacherProfile($id){
+        $data = array();
+        
+        // Check whether member id is not empty
+        if(!empty($id)){
+            $data['teachs'] = $this->teacher->teacherProfile(array('id' => $id));;
+            $data['title']  = 'User Profile';
+            
+            // Load the details page view
+            if($this->isUserLoggedIn){ 
+                $con = array( 
+                    'id' => $this->session->userdata('userId') 
+                    ); 
+                $data['teacher'] = $this->teacher->getRows($con); 
+                $this->load->view('teachers/header', $data);
+                $this->load->view('teachers/teacherProfile', $data);
+                $this->load->view('teachers/footer');
+            }
+        }else{
+            redirect('teachers');
+        }
+    }
+
     //teachers details
     public function allteachers(){
         $data = array();
@@ -182,6 +206,69 @@ class Teachers extends CI_Controller {
             $this->load->view('teachers/footer');
         }
     }
+
+    public function registration(){ 
+        $data = $userData = array(); 
+
+         
+        // If registration request is submitted 
+        if($this->input->post('signupSubmit')){ 
+            $this->form_validation->set_rules('first_name', 'First Name', 'required'); 
+            $this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check'); 
+            $this->form_validation->set_rules('password', 'Password', 'required'); 
+            $this->form_validation->set_rules('conf_password', 'Confirm Password', 'required|matches[password]'); 
+           // $this->form_validation->set_rules('terms', 'Terms & conditions', 'required');
+ 
+            $userData = array( 
+                'first_name' => strip_tags($this->input->post('first_name')), 
+                'last_name' => strip_tags($this->input->post('last_name')), 
+                'email' => strip_tags($this->input->post('email')), 
+                'password' => md5($this->input->post('password')), 
+                //'terms' => strip_tags($this->input->post('terms')),
+                //'gender' => $this->input->post('gender'), 
+                //'phone' => strip_tags($this->input->post('phone')) 
+            ); 
+ 
+            if($this->form_validation->run() == true){ 
+                $teacher = $this->teacher->insertTeacher($userData);
+                if($insert){ 
+                    $this->session->set_userdata('success_msg', 'Your account registration has been successful. Please login to your account.'); 
+                    redirect('users/login'); 
+                }else{ 
+                    $data['error_msg'] = 'Some problems occured, please try again.'; 
+                } 
+            }else{ 
+                $data['error_msg'] = 'Please fill all the mandatory fields.'; 
+            } 
+        } 
+         
+        // Posted data 
+        $data['teacher'] = $userData; 
+         
+        // Load view 
+        //$this->load->view('elements/header', $data); 
+        $this->load->view('teachers/registration', $data); 
+        //$this->load->view('elements/footer'); 
+    } 
+     
+     
+    // Existing email check during validation 
+    public function email_check($str){ 
+        $con = array( 
+            'returnType' => 'count', 
+            'conditions' => array( 
+                'email' => $str 
+            ) 
+        ); 
+        $checkEmail = $this->teacher->getRows($con); 
+        if($checkEmail > 0){ 
+            $this->form_validation->set_message('email_check', 'The given email already exists.'); 
+            return FALSE; 
+        }else{ 
+            return TRUE; 
+        } 
+    } 
 
     //login for all teachers role
     public function login(){ 

@@ -74,6 +74,22 @@ class Principal extends CI_Model{
         return false; 
     } 
 
+    public function update($data, $id) {
+        if(!empty($data) && !empty($id)){
+            // Add modified date if not included
+            if(!array_key_exists("modified", $data)){
+                $data['modified'] = date("Y-m-d H:i:s");
+            }
+            
+            // Update member data
+            $update = $this->db->update($this->table1, $data, array('id' => $id));
+            
+            // Return the status
+            return $update?true:false;
+        }
+        return false;
+    }
+
     /* delete teacher record */
     public function deleteTeacher($id){
         // Delete member data

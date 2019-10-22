@@ -30,6 +30,7 @@
                      <?php echo form_error('desigName','<p class="text-danger">','</p>'); ?>
                   </div>
                </div>
+               
                <div class="mt-3">
                   <input type="submit" name="add" value="Add Designation" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                </div>

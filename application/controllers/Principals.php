@@ -365,7 +365,6 @@ class Principals extends CI_Controller {
             $memData = $this->teacher->getRows(array('id' => $id));
             $memData = array(
                     'desigID'=> 0
-
                 );
             $data['principal'] = $memData;
             
@@ -630,7 +629,7 @@ class Principals extends CI_Controller {
             $this->form_validation->set_rules('first_name', 'First Name', 'required'); 
             $this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
-            $this->form_validation->set_rules('desigID', 'Designation Name', 'required');  
+            $this->form_validation->set_rules('desigName', 'Designation Name', 'required');  
             $this->form_validation->set_rules('password', 'Password', 'required'); 
             $this->form_validation->set_rules('conf_password', 'Confirm Password', 'required|matches[password]');
  
@@ -638,7 +637,7 @@ class Principals extends CI_Controller {
                 'first_name' => strip_tags($this->input->post('first_name')), 
                 'last_name' => strip_tags($this->input->post('last_name')), 
                 'email' => strip_tags($this->input->post('email')), 
-                'desigID' => strip_tags($this->input->post('desigID')),
+                'desigName' => strip_tags($this->input->post('desigName')),
                 'password' => md5($this->input->post('password')),
                 'status' => 1,
                 'role' => 2
@@ -693,5 +692,89 @@ class Principals extends CI_Controller {
             return TRUE; 
         } 
     } 
+
+
+    public function editTeacher($id){
+        $data = array();
+        $conditions['returnType'] = '';
+        $data['principals'] = $this->principal->getDesignation($conditions);
+        
+        // Get member data
+        $memData = $this->teacher->getRows(array('id' => $id));
+
+        
+        
+        // If update request is submitted
+        if($this->input->post('teacherUpdate')){
+            // Form field validation rules
+            $this->form_validation->set_rules('first_name', 'first name', 'required');
+            $this->form_validation->set_rules('last_name', 'last name', 'required');
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+            $this->form_validation->set_rules('desigName', 'Designtion name', 'required');
+            $this->form_validation->set_rules('status', 'Status', 'required');
+
+            // Prepare member data
+            $memData = array(
+                'first_name'=> $this->input->post('first_name'),
+                'last_name' => $this->input->post('last_name'),
+                'email'     => $this->input->post('email'),
+                'desigName' => strip_tags($this->input->post('desigName')),
+                'status' => strip_tags($this->input->post('status'))
+
+            );
+            $email =$this->input->post('email');
+            
+            // Validate submitted form data
+            if($this->form_validation->run() == true){
+                // Update member data
+                $update = $this->principal->update($memData, $id);
+
+                if($update){
+                    $this->session->set_userdata('success_msg', 'Teacher '.$email.'  has been updated successfully.');
+                    redirect('/principals/');
+                }else{
+                    $data['error_msg'] = 'Some problems occured, please try again.';
+                }
+            }
+        }
+
+        $data['member'] = $memData;
+        $data['title'] = 'Update Teacher';
+        
+        // Load the edit page view
+        if($this->isUserLoggedIn){ 
+            $con = array( 
+                'id' => $this->session->userdata('userId') 
+                ); 
+            $data['principal'] = $this->principal->getRows($con); 
+            $this->load->view('principal/header', $data);
+            $this->load->view('principal/editTeacher', $data);
+            $this->load->view('principal/footer');
+        }
+    }
+
+    /* teachert-profile */
+    public function teacherProfile($id){
+        $data = array();
+        
+        // Check whether member id is not empty
+        if(!empty($id)){
+            $data['teachs'] = $this->teacher->teacherProfile(array('id' => $id));;
+            $data['title']  = 'Teacher Profile';
+            
+            // Load the details page view
+            if($this->isUserLoggedIn){ 
+                $con = array( 
+                    'id' => $this->session->userdata('userId') 
+                    ); 
+                $data['principal'] = $this->principal->getRows($con); 
+                $this->load->view('principal/header', $data);
+                $this->load->view('principal/teacherProfile', $data);
+                $this->load->view('principal/footer');
+            }
+        }else{
+            redirect('principal');
+        }
+    }
 
 }

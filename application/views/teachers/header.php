@@ -111,11 +111,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <p class="mb-1 mt-3"><?php echo $teacher['first_name']; ?></p>
                   <p class="font-weight-light text-muted mb-0"><?php echo $teacher['email']; ?></p>
                 </div>
-                <a class="dropdown-item" href="<?php echo base_url('/members/profile/'); ?><?php echo $teacher['id']; ?>"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile </a>
+                <a class="dropdown-item" href="<?php echo base_url('/teachers/teacherProfile/'); ?><?php echo $teacher['id']; ?>"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile </a>
                 <a class="dropdown-item"><i class="dropdown-item-icon icon-speech text-primary"></i> Messages</a>
                 <a class="dropdown-item"><i class="dropdown-item-icon icon-energy text-primary"></i> Activity</a>
                 <a class="dropdown-item"><i class="dropdown-item-icon icon-question text-primary"></i> FAQ</a>
-                <a class="dropdown-item" href="<?php echo base_url('members/logout'); ?>"><i class="dropdown-item-icon icon-power text-primary"></i>Logout</a>
+                <a class="dropdown-item" href="<?php echo base_url('teachers/logout'); ?>"><i class="dropdown-item-icon icon-power text-primary"></i>Logout</a>
               </div>
             </li>
           </ul>

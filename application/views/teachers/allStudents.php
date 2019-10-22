@@ -36,7 +36,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="row report-inner-cards-wrapper">
+                    <div class="row report-inner-cards-wrapper">
                       <div class=" col-md -6 col-xl report-inner-card">
                         <div class="inner-card-text">
                           <span class="report-title">Class: <?php echo $row['class']; ?></span>
@@ -48,7 +48,7 @@
                         </div>
                       </div>
                       
-                    </div> -->
+                    </div>
                   </div>
                 </div>
               </div>

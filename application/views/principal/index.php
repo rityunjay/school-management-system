@@ -48,7 +48,10 @@
                             <th> First Name </th>
                             <th> Last Name </th>
                             <th> Email </th>
-                            <th> Designation </th>
+                            <th> Mobile </th>
+                            <th> Gender </th>
+                            <th> Subject </th>
+                            <th> Status </th>
                             <th> Action </th>
                         </tr>
                       </thead>
@@ -64,11 +67,20 @@
                             <?php echo $row['last_name']; ?>
                           </td>
                           <td> <?php echo $row['email']; ?> </td>
-                          <td> <?php if ($row['role'] == 2) { echo 'Teacher'; } ?> </td>
+                          <td> <?php echo $row['mobile']; ?> </td>
+                          <td> <?php echo $row['gender']; ?> </td>
+                          <td> <?php echo $row['desigName']; ?> </td>
+                          <td>
+                            <?php if($row['status'] == 1){?>
+                              <div class="badge badge-success p-2">Active</div>
+                            <?php }else{?>
+                              <div class="badge badge-danger p-2">Block</div>
+                            <?php } ?>
+                          </td>
                           <td> 
-                            <a href="<?php echo site_url('principals/view/'.$row['id']); ?>" class="btn btn-primary"><i class="icon-eye"></i></a>
-                            <a href="<?php echo site_url('principals/edit/'.$row['id']); ?>" class="btn btn-warning"><i class="icon-pencil"></i></a>
-                            <a href="<?php echo site_url('principals/deleteTeacherRecord/'.$row['id']); ?>" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')"><i class="icon-trash"></i></a>
+                            <a href="<?php echo site_url('principals/teacherProfile/'.$row['id']); ?>" class="btn btn-primary btn-sm"><i class="icon-eye"></i></a>
+                            <a href="<?php echo site_url('principals/editTeacher/'.$row['id']); ?>" class="btn btn-warning btn-sm"><i class="icon-pencil"></i></a>
+                            <a href="<?php echo site_url('principals/deleteTeacherRecord/'.$row['id']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete?')"><i class="icon-trash"></i></a>
                           </td>
                         </tr>
                         <?php } }else{ ?>

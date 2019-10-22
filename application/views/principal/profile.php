@@ -164,11 +164,6 @@ ul li{
 .left-side, h2, small{
   padding: 5px 0 0 10px; 
 }
-
-
-
-
-
 </style>
 
 <div class="content-wrapper">
@@ -183,69 +178,175 @@ ul li{
   <section class="left-col user-info">
     <div class="profile-avatar">
       <!-- <div class="inner"></div> -->
-      <img src="<?php //echo base_url('/assets/images/faces/'.$principal['memberPic']); ?>" class="inner">
+      <img src="<?php echo base_url('/assets/images/faces/'.$principal['profilePic']); ?>" class="inner">
     </div>
     <div class="left-side">
 
-    <h2 class="card-title mb-0 font-weight-bold mt-4" style="text-transform: capitalize;"><b><?php echo $principal['first_name']; ?> <?php echo $principal['last_name']; ?></b></h2>
-    <small class="d-block text-muted font-weight-semibold mb-0 mt-2"><?php echo $principal['email']; ?></small>
-    <small class="d-block text-muted font-weight-semibold mb-0 mt-2"><?php //echo $principal['country']; ?></small>
+    <h2 class="card-title mb-0 font-weight-bold mt-2" style="text-transform: capitalize;"><b><?php echo $principal['first_name']; ?> <?php echo $principal['last_name']; ?></b></h2>
+    <small class="d-block text-muted font-weight-semibold mb-0"><?php echo $principal['email']; ?></small>
+    <small class="d-block text-muted font-weight-semibold mb-0 mt-2"></small>
     </div>
   </section>
   <section class="section center-col content">
     
     <!-- Nav -->
     <nav class="profile-nav">
-      <ul>
-        <li class="active"><a href="<?php echo base_url('/principals/profile/'.$principals['id']); ?>">Home</a></li>
-        <li><a href="#" onclick="openTab(event, 'Servers')">Posts</a></li>
-        <li><a href="#" onclick="openTab(event, 'teachers')">Pages</a></li>
-        <li><a href="#" onclick="openTab(event, 'Workers')">category</a></li>
-        <li><a href="#teachers" class="btn btn-large btn-info active" data-toggle="tab">setting</a></li>
-      </ul>
+      <ul class="nav nav-tabs" role="tablist">
+                     <li class="">
+                        <a class="active" data-toggle="tab" href="#home-h" role="tab" aria-controls="home">Home</a>
+                     </li>
+                     <li class=""><a class="" data-toggle="tab" href="#personal-h" role="tab" aria-controls="personal">Personal Details</a></li>
+                     <li class=""><a class="" data-toggle="tab" href="#parents-h" role="tab" aria-controls="parents">Parents Details</a></li>
+                     <li class=""><a class="" data-toggle="tab" href="#attendance-h" role="tab" aria-controls="attendance">Attendance Record</a></li>
+                  </ul>
     </nav>
     
     <!-- Wil hyped X-->
     <div class="unit user-hyped">
+          <div class="tab-content">
+                     <div class="tab-pane active" id="home-h" role="tabpanel">
+                      <div class="sv-tab-panel">
+                        
+                        
 
-<?php if(!empty($teachers)){ ?>
-                    <table class="table table-striped table-bordered">
-                      <thead class="thead-dark">
-                        <tr>
-                            <th> # </th>
-                            <th> Member ID </th>
-                            <th> First Name </th>
-                            <th> Last Name </th>
-                            <th> Email </th>
-                            <th> Action </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php $i=0; foreach($teachers as $row){ $i++;?>
-                        <tr>
-                          <td class="py-1">
-                            <?php echo $i; ?>
-                          </td>
-                          <td> <?php echo $row['id']; ?> </td>
-                          <td> <?php echo $row['first_name']; ?> </td>
-                          <td>
-                            <?php echo $row['last_name']; ?>
-                          </td>
-                          <td> <?php echo $row['email']; ?> </td>
-                          <td> 
-                            <a href="<?php echo site_url('principals/view/'.$row['id']); ?>" class="btn btn-primary"><i class="icon-eye"></i></a>
-                            <a href="<?php echo site_url('principals/edit/'.$row['id']); ?>" class="btn btn-warning"><i class="icon-pencil"></i></a>
-                            <a href="<?php echo site_url('principals/deleteTeacherRecord/'.$row['id']); ?>" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')"><i class="icon-trash"></i></a>
-                          </td>
-                        </tr>
-                        <?php } ?>
-                      </tbody>
-                    </table>
-                    <?php }else{?>
-                      <div class="col-xs-12">
-                        <div class="card-description alert alert-danger">No Student's found...</div>
                       </div>
+                    </div>
+                     <div class="tab-pane" id="personal-h" role="tabpanel">
+                      <div class="sv-tab-panel">
+                        
+                        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Personal Detail</h4>
+                        <hr>
+                    </div>
+                </div>
+                <!-- <div class="form-group row">
+                    <?php foreach($principals as $row){ ?>
+                    <div class="col-sm-3">
+                      <div class="form-check">
+                        <label class="form-check-label" style="text-transform: capitalize;">
+                          <input type="radio" class="form-check-input" name="desigID" id="<?php echo $row['desigName']; ?>" value="<?php echo $row['id']; ?>" > <?php echo $row['desigName']; ?> <i class="input-helper"></i>
+                        </label>
+                        <?php echo form_error('desigID','<p class="text-danger">','</p>'); ?>
+                      </div>
+                    </div>  
                     <?php } ?>
+                  </div> -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                              <div class="form-group row">
+                                <label for="username" class="col-4 col-form-label">First Name</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $principal['first_name']; ?>" class="form-control here" readonly type="text">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="name" class="col-4 col-form-label">Last Name</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $principal['last_name']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Email</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $principal['email']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Mobile</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $principal['mobile']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Gender</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $principal['gender']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+
+                              
+                              
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+
+                      </div>
+                    </div>
+                      <div class="tab-pane" id="parents-h" role="tabpanel">
+                        <div class="sv-tab-panel">
+                          <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Parent Detail</h4>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <div>
+                              <div class="form-group row">
+                                <label for="username" class="col-4 col-form-label">Father Name</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $teachs['father_name']; ?>" class="form-control here" readonly type="text">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="name" class="col-4 col-form-label">Mother Name</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $teachs['mother_name']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Father Email</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $teachs['f_email']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Father Mobile</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $teachs['f_mobile']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Father Occupation</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $teachs['father_occupation']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Mother Occupation</label> 
+                                <div class="col-8">
+                                  <input value="<?php echo $teachs['mother_occupation']; ?>" class="form-control here" type="text" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="publicinfo" class="col-4 col-form-label">Address</label> 
+                                <div class="col-8">
+                                  <textarea cols="40" rows="4" class="form-control" readonly=""><?php echo $teachs['address']; ?></textarea>
+                                </div>
+                              </div>
+                              
+                        </div> -->
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+                        </div>
+                      </div>
+                     <div class="tab-pane" id="attendance-h" role="tabpanel"><div class="sv-tab-panel">Settings Panel</div></div>
+                  </div>
 
 
 
@@ -260,3 +361,8 @@ ul li{
 
    </div>
 </div>
+
+
+
+
+
