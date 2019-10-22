@@ -100,7 +100,7 @@ class Principals extends CI_Controller {
         } 
     }
 
-    public function profile($id){
+    /*public function profile($id){
         $data = array();
         
         // Check whether member id is not empty
@@ -120,6 +120,65 @@ class Principals extends CI_Controller {
             }
         }else{
             redirect('principals');
+        }
+    }*/
+
+    /* teachert-profile */
+    public function profile($id){
+        $data = array();
+       // $conditions['returnType'] = '';
+        
+        // Get member data
+        $memData = $this->principal->getRows(array('id' => $id));
+        $data['title']  = 'User Profile';
+        
+        
+        // If update request is submitted
+        if($this->input->post('updateProfile')){
+            // Form field validation rules
+            $this->form_validation->set_rules('first_name', 'first name', 'required');
+            $this->form_validation->set_rules('last_name', 'last name', 'required');
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+            //$this->form_validation->set_rules('mobile', 'Mobile Number', 'required');
+            //$this->form_validation->set_rules('gender', 'Gender', 'required');
+
+            // Prepare member data
+            $memData = array(
+                'first_name'=> $this->input->post('first_name'),
+                'last_name' => $this->input->post('last_name'),
+                'email'     => $this->input->post('email'),
+                'mobile' => strip_tags($this->input->post('mobile')),
+                'gender' => strip_tags($this->input->post('gender')),
+                'mStatus' => strip_tags($this->input->post('mStatus'))
+
+            );
+            
+            // Validate submitted form data
+            if($this->form_validation->run() == true){
+                // Update member data
+                $update = $this->principal->updateProfile($memData, $id);
+
+                if($update){
+                    $this->session->set_userdata('success_msg', 'Profile has been updated successfully.');
+                    redirect('/principals/profile/'.$id);
+                }else{
+                    $data['error_msg'] = 'Some problems occured, please try again.';
+                }
+            }
+        }
+
+        $data['member'] = $memData;
+        $data['title'] = 'Update Teacher';
+        
+        // Load the edit page view
+        if($this->isUserLoggedIn){ 
+            $con = array( 
+                'id' => $this->session->userdata('userId') 
+                ); 
+            $data['principal'] = $this->principal->getRows($con); 
+            $this->load->view('principal/header', $data);
+            $this->load->view('principal/profile', $data);
+            $this->load->view('principal/footer');
         }
     }
 

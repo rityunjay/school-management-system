@@ -219,6 +219,7 @@ ul li{
                 <div class="row">
                     <div class="col-md-12">
                         <h4>Personal Detail</h4>
+                        <button onclick="editMp()" class="btn btn-info btn-sm float-right" style="margin-top: -25px;">Edit Profile</button>
                         <hr>
                     </div>
                 </div>
@@ -236,41 +237,81 @@ ul li{
                   </div> -->
                 <div class="row">
                     <div class="col-md-12">
-                        <div>
+                        <?php  
+                    if(!empty($success_msg)){ 
+                        echo '<h6 class="font-weight-light text-success">'.$success_msg.'</h6>'; 
+                    }elseif(!empty($error_msg)){ 
+                        echo '<h6 class="font-weight-light text-danger">'.$error_msg.'</h6>'; 
+                    } 
+                ?>
+                <form class="pt-3" method="post">
                               <div class="form-group row">
                                 <label for="username" class="col-4 col-form-label">First Name</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $principal['first_name']; ?>" class="form-control here" readonly type="text">
+                                  <input value="<?php echo $principal['first_name']; ?>" name="first_name" class="form-control here myText" readonly type="text">
+                                  <?php echo form_error('first_name','<p class="text-danger">','</p>'); ?>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="name" class="col-4 col-form-label">Last Name</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $principal['last_name']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $principal['last_name']; ?>" name="last_name" class="form-control here myText" type="text" readonly>
+                                  <?php echo form_error('last_name','<p class="text-danger">','</p>'); ?>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Email</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $principal['email']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $principal['email']; ?>" name="email" class="form-control here myText" type="text" readonly>
+                                  <?php echo form_error('email','<p class="text-danger">','</p>'); ?>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="lastname" class="col-4 col-form-label">Mobile</label> 
                                 <div class="col-8">
-                                  <input value="<?php echo $principal['mobile']; ?>" class="form-control here" type="text" readonly>
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="lastname" class="col-4 col-form-label">Gender</label> 
-                                <div class="col-8">
-                                  <input value="<?php echo $principal['gender']; ?>" class="form-control here" type="text" readonly>
+                                  <input value="<?php echo $principal['mobile']; ?>" name="mobile" class="form-control here myText" type="text" readonly>
+                                  <?php echo form_error('mobile','<p class="text-danger">','</p>'); ?>
                                 </div>
                               </div>
 
+                            <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Gender</label>
+                            <div class="col-sm-2">
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input myText" name="gender" id="membershipRadios1" value="male" disabled <?php if($principal['gender'] == 'male'){ echo "checked"; } ?>> Male <i class="input-helper"></i></label>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input myText" name="gender" id="membershipRadios2" value="female" disabled <?php if($principal['gender'] == 'female'){ echo "checked"; } ?>> Female <i class="input-helper"></i></label>
+                              </div>
+                            </div>
+                            <?php echo form_error('gender','<p class="text-danger">','</p>'); ?>
+                          </div>
+
+                            <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Marital Status</label>
+                            <div class="col-sm-2">
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input myText" name="mStatus" id="membershipRadios1" value="married" disabled <?php if($principal['mStatus'] == 'married'){ echo "checked"; } ?>> Married <i class="input-helper"></i></label>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input myText" name="mStatus" id="membershipRadios2" value="unmarried" disabled <?php if($principal['mStatus'] == 'unmarried'){ echo "checked"; } ?>> Unmarried <i class="input-helper"></i></label>
+                              </div>
+                            </div>
+                            <?php echo form_error('mStatus','<p class="text-danger">','</p>'); ?>
+                          </div>
                               
+
+                              <input type="submit" name="updateProfile" class="btn btn-primary mr-2 btn-md show" value="Update" hidden="">
                               
-                        </div>
+                        </form>
                     </div>
                 </div>
                 
@@ -362,6 +403,18 @@ ul li{
    </div>
 </div>
 
+
+
+       
+
+<script>
+  function editMp(){
+    $(".myText").removeAttr('readonly');
+    $(".myText").removeAttr('disabled');
+    $(".show").removeAttr('hidden');
+  }
+
+</script>
 
 
 

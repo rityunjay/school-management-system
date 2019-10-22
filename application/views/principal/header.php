@@ -37,7 +37,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a class="navbar-brand brand-logo-mini" href="index.html"><img src="<?php echo base_url('/assets/images/logo-mini.svg');?>" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
-          <h5 class="mb-0 font-weight-medium d-none d-lg-flex">Welcome Principal dashboard!</h5>
+          <h5 class="mb-0 font-weight-medium d-none d-lg-flex">Welcome 
+          <?php if($principal['gender'] == 'male'){ ?> Mr.
+          <?php }elseif($principal['gender'] == 'female'){ ?>
+            <?php if($principal['mStatus'] == 'married'){ ?> Mrs.
+            <?php }elseif($principal['mStatus'] == 'unmarried'){ ?> Miss.
+          <?php }} ?>
+          <?php echo $principal['first_name']; ?>
+          </h5>
           <ul class="navbar-nav navbar-nav-right ml-auto">
             <form class="search-form d-none d-md-block" action="#">
               <i class="icon-magnifier"></i>
