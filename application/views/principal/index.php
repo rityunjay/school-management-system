@@ -3,7 +3,7 @@
               <h3 class="page-title"> <?php echo $title; ?> </h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="<?php echo base_url('/users/dashboard/'); ?>">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="<?php echo base_url('/principals/dashboard/'); ?>">Dashboard</a></li>
                   <li class="breadcrumb-item active" aria-current="page"><?php echo $title; ?></li>
                 </ol>
               </nav>
@@ -70,15 +70,20 @@
                           <td> <?php echo $row['mobile']; ?> </td>
                           <td> <?php echo $row['gender']; ?> </td>
                           <td> <?php echo $row['desigName']; ?> </td>
-                          <td>
+                          <!-- <td>
                             <?php if($row['status'] == 1){?>
                               <div class="badge badge-success p-2">Active</div>
                             <?php }else{?>
                               <div class="badge badge-danger p-2">Block</div>
                             <?php } ?>
-                          </td>
+                          </td> -->
+                          <?php 
+                            $statusLink = ($row['status'] == 1)?site_url('principals/block/'.$row['id']):site_url('principals/unblock/'.$row['id']);  
+                            $statusTooltip = ($row['status'] == 1)?'Click to Inactive':'Click to Active'; 
+                           ?>
+                          <td><a href="<?php echo $statusLink; ?>" title="<?php echo $statusTooltip; ?>"><span class="badge <?php echo ($row['status'] == 1)?'badge badge-success p-2':'badge badge-danger p-2'; ?>"><?php echo ($row['status'] == 1)?'Active':'Inactive'; ?></span></a></td>
                           <td> 
-                            <a href="<?php echo site_url('principals/teacherProfile/'.$row['id']); ?>" class="btn btn-primary btn-sm"><i class="icon-eye"></i></a>
+                            <a href="<?php echo site_url('principals/teacherProfile/'.$row['id']); ?>" class="btn btn-primary btn-sm" target="_blank"><i class="icon-eye"></i></a>
                             <a href="<?php echo site_url('principals/editTeacher/'.$row['id']); ?>" class="btn btn-warning btn-sm"><i class="icon-pencil"></i></a>
                             <a href="<?php echo site_url('principals/deleteTeacherRecord/'.$row['id']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete?')"><i class="icon-trash"></i></a>
                           </td>

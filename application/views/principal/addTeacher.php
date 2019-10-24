@@ -35,9 +35,9 @@
                     <div class="col-sm-3">
                       <div class="form-check">
                         <label class="form-check-label" style="text-transform: capitalize;">
-                          <input type="radio" class="form-check-input" name="desigName" id="<?php echo $row['id']; ?>" value="<?php echo $row['desigName']; ?>" > <?php echo $row['desigName']; ?> <i class="input-helper"></i>
+                          <input type="radio" class="form-check-input" name="subjectName" id="<?php echo $row['id']; ?>" value="<?php echo $row['subjectName']; ?>" > <?php echo $row['subjectName']; ?> <i class="input-helper"></i>
                         </label>
-                        <?php echo form_error('desigID','<p class="text-danger">','</p>'); ?>
+                        <?php echo form_error('subjectName','<p class="text-danger">','</p>'); ?>
                       </div>
                     </div>  
                     <?php } ?>

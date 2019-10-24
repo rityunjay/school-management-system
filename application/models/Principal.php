@@ -6,8 +6,10 @@ class Principal extends CI_Model{
     function __construct() {
         // Set table name
         $this->table = 'gt_principal';
-        $this->table1 = 'gt_teachers';
-        $this->desigTable = 'gt_designation';
+        $this->teacherTable = 'gt_teachers';
+        $this->subjectTable = 'gt_clsSubject';
+        $this->classTable = 'gt_stdClass';
+        $this->sectionTable = 'gt_stdSection';
     }
     
     /*
@@ -82,7 +84,7 @@ class Principal extends CI_Model{
             } 
              
             // Insert member data 
-            $insert = $this->db->insert($this->table1, $data); 
+            $insert = $this->db->insert($this->teacherTable, $data); 
              
             // Return the status 
             return $insert?$this->db->insert_id():false; 
@@ -98,7 +100,7 @@ class Principal extends CI_Model{
             }
             
             // Update member data
-            $update = $this->db->update($this->table1, $data, array('id' => $id));
+            $update = $this->db->update($this->teacherTable, $data, array('id' => $id));
             
             // Return the status
             return $update?true:false;
@@ -109,23 +111,23 @@ class Principal extends CI_Model{
     /* delete teacher record */
     public function deleteTeacher($id){
         // Delete member data
-        $delete = $this->db->delete($this->table1, array('id' => $id));
+        $delete = $this->db->delete($this->teacherTable, array('id' => $id));
         
         // Return the status
         return $delete?true:false;
     }
 
     /* delete designation record */
-    public function deleteDesignation($id){
+    public function deleteSubject($id){
         // Delete member data
-        $delete = $this->db->delete($this->desigTable, array('id' => $id));
+        $delete = $this->db->delete($this->subjectTable, array('id' => $id));
 
         // Return the status
         return $delete?true:false;
     }
 
     /* add designation data */
-    public function insertDesignation($data = array()) { 
+    public function insertSubject($data = array()) { 
         if(!empty($data)){ 
             // Add created and modified date if not included 
             if(!array_key_exists("created_date", $data)){ 
@@ -136,7 +138,7 @@ class Principal extends CI_Model{
             } 
              
             // Insert member data 
-            $insert = $this->db->insert($this->desigTable, $data); 
+            $insert = $this->db->insert($this->subjectTable, $data); 
              
             // Return the status 
             return $insert?$this->db->insert_id():false; 
@@ -145,9 +147,48 @@ class Principal extends CI_Model{
     } 
 
     /* display designation data */
-    function getDesignation($params = array()){ 
+    function getSubject($params = array()){ 
         $this->db->select('*'); 
-        $this->db->from($this->desigTable); 
+        $this->db->from($this->subjectTable);
+        $this->db->join($this->teacherTable, 'gt_teachers.id = gt_clsSubject.tid');  
+         
+        if(array_key_exists("conditions", $params)){ 
+            foreach($params['conditions'] as $key => $val){ 
+                $this->db->where($key, $val); 
+            } 
+        } 
+         
+        if(array_key_exists("returnType",$params) && $params['returnType'] == 'count'){ 
+            $result = $this->db->count_all_results(); 
+        }else{ 
+            if(array_key_exists("id", $params) || $params['returnType'] == 'single'){ 
+                if(!empty($params['id'])){ 
+                    $this->db->where('tid', $params['id']); 
+                } 
+                $query = $this->db->get(); 
+                $result = $query->row_array(); 
+            }else{ 
+                $this->db->order_by('tid', 'desc'); 
+                if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+                    $this->db->limit($params['limit'],$params['start']); 
+                }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+                    $this->db->limit($params['limit']); 
+                } 
+                 
+                $query = $this->db->get(); 
+                $result = ($query->num_rows() > 0)?$query->result_array():FALSE; 
+            } 
+        } 
+         
+        // Return fetched data 
+        return $result; 
+    }
+
+    /* display class data */
+    function getClass($params = array()){ 
+        $this->db->select('*'); 
+        $this->db->from($this->teacherTable); 
+        $this->db->join($this->classTable, 'gt_teachers.id = gt_stdClass.tid'); 
          
         if(array_key_exists("conditions", $params)){ 
             foreach($params['conditions'] as $key => $val){ 
@@ -165,7 +206,7 @@ class Principal extends CI_Model{
                 $query = $this->db->get(); 
                 $result = $query->row_array(); 
             }else{ 
-                $this->db->order_by('id', 'desc'); 
+                $this->db->order_by('tid', 'desc'); 
                 if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
                     $this->db->limit($params['limit'],$params['start']); 
                 }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
@@ -180,6 +221,110 @@ class Principal extends CI_Model{
         // Return fetched data 
         return $result; 
     }
+
+    /* 
+     * Insert Teacher data into the database 
+     * @param $data data to be inserted 
+     */ 
+    public function addClass($data = array()) { 
+        if(!empty($data)){ 
+            // Add created and modified date if not included 
+            if(!array_key_exists("created_date", $data)){ 
+                $data['created_date'] = date("Y-m-d H:i:s"); 
+            } 
+            if(!array_key_exists("modified", $data)){ 
+                $data['modified'] = date("Y-m-d H:i:s"); 
+            } 
+             
+            // Insert member data 
+            $insert = $this->db->insert($this->classTable, $data); 
+             
+            // Return the status 
+            return $insert?$this->db->insert_id():false; 
+        } 
+        return false; 
+    }
+
+    /* delete designation record */
+    public function deleteClass($id){
+        // Delete member data
+        $delete = $this->db->delete($this->classTable, array('id' => $id));
+
+        // Return the status
+        return $delete?true:false;
+    } 
+
+    /* display class data */
+    function getSection($params = array()){ 
+        $this->db->select('*'); 
+        $this->db->from($this->teacherTable); 
+        $this->db->join($this->classTable, 'gt_teachers.id = gt_stdClass.tid'); 
+        $this->db->join($this->sectionTable, 'gt_stdSection.cid = gt_stdClass.id');
+        $this->db->join($this->subjectTable, 'gt_clsSubject.tid = gt_stdClass.tid');  
+         
+        if(array_key_exists("conditions", $params)){ 
+            foreach($params['conditions'] as $key => $val){ 
+                $this->db->where($key, $val); 
+            } 
+        } 
+         
+        if(array_key_exists("returnType",$params) && $params['returnType'] == 'count'){ 
+            $result = $this->db->count_all_results(); 
+        }else{ 
+            if(array_key_exists("id", $params) || $params['returnType'] == 'single'){ 
+                if(!empty($params['id'])){ 
+                    $this->db->where('id', $params['id']); 
+                } 
+                $query = $this->db->get(); 
+                $result = $query->row_array(); 
+            }else{ 
+                $this->db->order_by('cid', 'desc'); 
+                if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+                    $this->db->limit($params['limit'],$params['start']); 
+                }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+                    $this->db->limit($params['limit']); 
+                } 
+                 
+                $query = $this->db->get(); 
+                $result = ($query->num_rows() > 0)?$query->result_array():FALSE; 
+            } 
+        } 
+         
+        // Return fetched data 
+        return $result; 
+    }
+
+    /* 
+     * Insert Teacher data into the database 
+     * @param $data data to be inserted 
+     */ 
+    public function addSection($data = array()) { 
+        if(!empty($data)){ 
+            // Add created and modified date if not included 
+            if(!array_key_exists("created_date", $data)){ 
+                $data['created_date'] = date("Y-m-d H:i:s"); 
+            } 
+            if(!array_key_exists("modified", $data)){ 
+                $data['modified'] = date("Y-m-d H:i:s"); 
+            } 
+             
+            // Insert member data 
+            $insert = $this->db->insert($this->sectionTable, $data); 
+             
+            // Return the status 
+            return $insert?$this->db->insert_id():false; 
+        } 
+        return false; 
+    }
+
+    /* delete designation record */
+    public function deleteSection($id){
+        // Delete member data
+        $delete = $this->db->delete($this->sectionTable, array('id' => $id));
+
+        // Return the status
+        return $delete?true:false;
+    } 
     
     
 }

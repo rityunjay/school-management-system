@@ -151,16 +151,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </a>
             </li>
-            <li class="nav-item nav-category">
-              <span class="nav-link">Dashboard</span>
-            </li>
+            <li class="nav-item nav-category"><span class="nav-link">Dashboard</span></li>
             <li class="nav-item">
               <a class="nav-link" href="<?php echo base_url('/principals/dashboard/'); ?>">
                 <span class="menu-title">Dashboard</span>
                 <i class="icon-screen-desktop menu-icon"></i>
               </a>
             </li>
-
+            <li class="nav-item nav-category"><span class="nav-link">Class & Section</span></li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#classes" aria-expanded="false" aria-controls="classes">
+                <span class="menu-title">Class</span>
+                <i class="icon-doc menu-icon"></i>
+              </a>
+              <div class="collapse" id="classes">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('principals/manageClass'); ?>"> Manage Class </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('principals/manageSection/'); ?>"> Manage Section </a></li>
+                </ul>
+              </div>
+            </li>
             <li class="nav-item nav-category"><span class="nav-link">Staff</span></li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#pages" aria-expanded="false" aria-controls="pages">
@@ -171,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('principals/'); ?>"> All Teachers </a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('principals/addTeacher/'); ?>"> Add Teacher </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('principals/addDesignation/'); ?>"> Add Designation </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('principals/addSubject/'); ?>"> Add Subject </a></li>
                 </ul>
               </div>
             </li>

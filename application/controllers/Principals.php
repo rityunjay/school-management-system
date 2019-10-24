@@ -182,6 +182,44 @@ class Principals extends CI_Controller {
         }
     }
 
+    public function block($id){ 
+        // Check whether gallery id is not empty 
+        if($id){ 
+            // Update gallery status 
+            $data = array('status' => 0); 
+            $update = $this->principal->update($data, $id); 
+             
+            if($update){ 
+                $this->session->set_userdata('success_msg', 'User has been blocked successfully.'); 
+                redirect('/principals/');
+            }else{ 
+                $this->session->set_userdata('error_msg', 'Some problems occurred, please try again.'); 
+                redirect('/principals/');
+            } 
+        } 
+ 
+        redirect($this->controller); 
+    } 
+     
+    public function unblock($id){ 
+        // Check whether gallery id is not empty 
+        if($id){ 
+            // Update gallery status 
+            $data = array('status' => 1); 
+            $update = $this->principal->update($data, $id); 
+             
+            if($update){ 
+                $this->session->set_userdata('success_msg', 'User has been activated successfully.');
+                redirect('/principals/'); 
+            }else{ 
+                $this->session->set_userdata('error_msg', 'Some problems occurred, please try again.');
+                redirect('/principals/'); 
+            } 
+        } 
+ 
+        redirect($this->controller); 
+    } 
+
     /* display all teacher */
     public function index(){
         $data = array();
@@ -282,38 +320,40 @@ class Principals extends CI_Controller {
         redirect('principals');
     }
 
-    /* add teacher designation */
-    public function addDesignation(){ 
+    /* add teacher Subject */
+    public function addSubject(){ 
         $data = $userData = array(); 
-         
+        
         // If registration request is submitted 
         if($this->input->post('add')){ 
-            $this->form_validation->set_rules('desigName', 'Designation Name', 'required|callback_designation_check');
-            //$this->form_validation->set_rules('desigName', 'Designation Name', 'required'); 
+            $this->form_validation->set_rules('subjectName', 'Subject Name', 'required|callback_Subject_check');
+            $this->form_validation->set_rules('tid', 'Teacher Name', 'required');
+            //$this->form_validation->set_rules('subjectName', 'Subject Name', 'required'); 
  
             $userData = array( 
-                'desigName' => strip_tags($this->input->post('desigName')),
-                'user_id' => $this->session->userdata('userId')
+                'subjectName' => strip_tags($this->input->post('subjectName')),
+                'user_id' => $this->session->userdata('userId'),
+                'tid' => strip_tags($this->input->post('tid'))
             ); 
  
             if($this->form_validation->run() == true){ 
-                $insert = $this->principal->insertDesignation($userData); 
+                $insert = $this->principal->insertSubject($userData); 
                 if($insert){ 
                     $this->session->set_userdata('success_msg', 'Your account registration has been successful. Please login to your account.'); 
-                    redirect('principals/addDesignation'); 
+                    redirect('principals/addSubject'); 
                 }else{ 
                     $data['error_msg'] = 'Some problems occured, please try again.'; 
-                    //redirect('principals/addDesignation'); 
+                    //redirect('principals/addSubject'); 
                 } 
             }else{ 
                 $data['error_msg'] = 'Please fill all the mandatory fields.'; 
-                //redirect('principals/addDesignation'); 
+                //redirect('principals/addSubject'); 
             } 
         } 
          
         // Posted data 
         $data['principal'] = $userData;
-        $data['title'] = 'Add Designation';
+        $data['title'] = 'Add Subject';
 
 
         // Get messages from the session
@@ -343,10 +383,10 @@ class Principals extends CI_Controller {
         // Get rows count
         $conditions['searchKeyword'] = $data['searchKeyword'];
         $conditions['returnType']    = 'count';
-        $rowsCount = $this->principal->getDesignation($conditions);
+        $rowsCount = $this->principal->getSubject($conditions);
         
         // Pagination config
-        $config['base_url']    = base_url().'principals/addDesignation/';
+        $config['base_url']    = base_url().'principals/addSubject/';
         $config['uri_segment'] = 3;
         $config['total_rows']  = $rowsCount;
         $config['per_page']    = $this->perPage;
@@ -380,7 +420,8 @@ class Principals extends CI_Controller {
         $conditions['limit'] = $this->perPage;
         //$data["links"] = explode('&nbsp;',$str_links );
 
-        $data['principals'] = $this->principal->getDesignation($conditions);
+        $data['clst'] = $this->teacher->getRows($conditions);
+        $data['principals'] = $this->principal->getSubject($conditions);
          
         // Load the add page view
         if($this->isUserLoggedIn){ 
@@ -389,53 +430,53 @@ class Principals extends CI_Controller {
                 ); 
             $data['principal'] = $this->principal->getRows($con); 
             $this->load->view('principal/header', $data);
-            $this->load->view('principal/addDesignation', $data);
+            $this->load->view('principal/addSubject', $data);
             $this->load->view('principal/footer');
         }
     } 
   
      
      
-    // Existing designation check during validation 
-    public function designation_check($str){ 
+    // Existing Subject check during validation 
+    public function Subject_check($str){ 
         $con = array( 
             'returnType' => 'count', 
             'conditions' => array( 
-                'desigName' => $str 
+                'subjectName' => $str 
             ) 
         ); 
-        $checkDesignation = $this->principal->getDesignation($con); 
-        if($checkDesignation > 0){ 
-            $this->form_validation->set_message('designation_check', 'The given Designation already exists.'); 
+        $checkSubject = $this->principal->getSubject($con); 
+        if($checkSubject > 0){ 
+            $this->form_validation->set_message('Subject_check', 'The given Subject already exists.'); 
             return FALSE; 
         }else{ 
             return TRUE; 
         } 
     } 
 
-    /* delete designation record */
-    public function deleteDesignationRecord($id){
+    /* delete Subject record */
+    public function deleteSubjectRecord($id){
         // Check whether member id is not empty
         if($id){
             // Delete member
-            $delete = $this->principal->deleteDesignation($id);
+            $delete = $this->principal->deleteSubject($id);
 
             // Get member data
             $memData = $this->teacher->getRows(array('id' => $id));
             $memData = array(
-                    'desigID'=> 0
+                    'subjectID'=> 0
                 );
             $data['principal'] = $memData;
             
             if($delete){
-                $this->session->set_userdata('success_msg', 'Designation Data has been removed successfully.');
+                $this->session->set_userdata('success_msg', 'Subject Data has been removed successfully.');
             }else{
                 $this->session->set_userdata('error_msg', 'Some problems occured, please try again.');
             }
         }
         
         // Redirect to the list page
-        redirect('principals/addDesignation');
+        redirect('principals/addSubject');
     }
 
    
@@ -681,14 +722,14 @@ class Principals extends CI_Controller {
     public function addTeacher(){ 
         $data = $userData = array(); 
         $conditions['returnType'] = '';
-        $data['principals'] = $this->principal->getDesignation($conditions);
+        $data['principals'] = $this->principal->getSubject($conditions);
 
         // If registration request is submitted 
         if($this->input->post('signupSubmit')){ 
             $this->form_validation->set_rules('first_name', 'First Name', 'required'); 
             $this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
-            $this->form_validation->set_rules('desigName', 'Designation Name', 'required');  
+            $this->form_validation->set_rules('subjectName', 'Subject Name', 'required');  
             $this->form_validation->set_rules('password', 'Password', 'required'); 
             $this->form_validation->set_rules('conf_password', 'Confirm Password', 'required|matches[password]');
  
@@ -696,7 +737,7 @@ class Principals extends CI_Controller {
                 'first_name' => strip_tags($this->input->post('first_name')), 
                 'last_name' => strip_tags($this->input->post('last_name')), 
                 'email' => strip_tags($this->input->post('email')), 
-                'desigName' => strip_tags($this->input->post('desigName')),
+                'subjectName' => strip_tags($this->input->post('subjectName')),
                 'password' => md5($this->input->post('password')),
                 'status' => 1,
                 'role' => 2
@@ -756,7 +797,7 @@ class Principals extends CI_Controller {
     public function editTeacher($id){
         $data = array();
         $conditions['returnType'] = '';
-        $data['principals'] = $this->principal->getDesignation($conditions);
+        $data['principals'] = $this->principal->getSubject($conditions);
         
         // Get member data
         $memData = $this->teacher->getRows(array('id' => $id));
@@ -769,7 +810,7 @@ class Principals extends CI_Controller {
             $this->form_validation->set_rules('first_name', 'first name', 'required');
             $this->form_validation->set_rules('last_name', 'last name', 'required');
             $this->form_validation->set_rules('email', 'email', 'required|valid_email');
-            $this->form_validation->set_rules('desigName', 'Designtion name', 'required');
+            $this->form_validation->set_rules('subjectName', 'subjectntion name', 'required');
             $this->form_validation->set_rules('status', 'Status', 'required');
 
             // Prepare member data
@@ -777,7 +818,7 @@ class Principals extends CI_Controller {
                 'first_name'=> $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
                 'email'     => $this->input->post('email'),
-                'desigName' => strip_tags($this->input->post('desigName')),
+                'subjectName' => strip_tags($this->input->post('subjectName')),
                 'status' => strip_tags($this->input->post('status'))
 
             );
@@ -793,6 +834,7 @@ class Principals extends CI_Controller {
                     redirect('/principals/');
                 }else{
                     $data['error_msg'] = 'Some problems occured, please try again.';
+                    redirect('/principals/');
                 }
             }
         }
@@ -818,7 +860,7 @@ class Principals extends CI_Controller {
         
         // Check whether member id is not empty
         if(!empty($id)){
-            $data['teachs'] = $this->teacher->teacherProfile(array('id' => $id));;
+            $data['teachs'] = $this->teacher->teacherProfile(array('id' => $id));
             $data['title']  = 'Teacher Profile';
             
             // Load the details page view
@@ -832,8 +874,171 @@ class Principals extends CI_Controller {
                 $this->load->view('principal/footer');
             }
         }else{
-            redirect('principal');
+            redirect('principals');
         }
+    }
+
+    /* manage-class */
+    public function manageClass(){
+        $data = $userData = array();
+        $conditions['returnType'] = '';
+        $data['title']  = 'Manage Class';
+
+        $data['clst'] = $this->teacher->getRows($conditions);
+        $data['cls'] = $this->principal->getClass($conditions);
+
+        // If registration request is submitted 
+        if($this->input->post('addClass')){ 
+            $this->form_validation->set_rules('className', 'Class Name', 'required'); 
+            $this->form_validation->set_rules('numericName', 'Numeric Name', 'required'); 
+            $this->form_validation->set_rules('tid', 'Teacher Name', 'required');
+ 
+            $userData = array( 
+                'className' => strip_tags($this->input->post('className')), 
+                'numericName' => strip_tags($this->input->post('numericName')), 
+                'tid' => strip_tags($this->input->post('tid'))
+            ); 
+ 
+            if($this->form_validation->run() == true){ 
+                $insert = $this->principal->addClass($userData); 
+                if($insert){ 
+                    $this->session->set_userdata('success_msg', 'Your account registration has been successful. Please login to your account.'); 
+                    redirect('principals/manageClass'); 
+                }else{ 
+                    $data['error_msg'] = 'Some problems occured, please try again.'; 
+                } 
+            }else{ 
+                $data['error_msg'] = 'Please fill all the mandatory fields.'; 
+            } 
+        } 
+         
+        // Posted data 
+        $data['principal'] = $userData;
+
+        // Load the details page view
+            if($this->isUserLoggedIn){ 
+                $con = array( 
+                    'id' => $this->session->userdata('userId') 
+                    ); 
+                $data['principal'] = $this->principal->getRows($con); 
+                $this->load->view('principal/header', $data);
+                $this->load->view('principal/manageClass', $data);
+                $this->load->view('principal/footer');
+            }
+    }
+
+    /* add-class */
+    /*public function addClass(){
+        $data = array();
+        $conditions['returnType'] = '';
+        $data['title']  = 'Manage Class';
+
+        
+        // Load the details page view
+            if($this->isUserLoggedIn){ 
+                $con = array( 
+                    'id' => $this->session->userdata('userId') 
+                    ); 
+                $data['principal'] = $this->principal->getRows($con); 
+                $this->load->view('principal/header', $data);
+                $this->load->view('principal/manageClass', $data);
+                $this->load->view('principal/footer');
+            }
+    }*/
+
+     /* delete Subject record */
+    public function deleteClass($id){
+        // Check whether member id is not empty
+        if($id){
+            // Delete member
+            $delete = $this->principal->deleteClass($id);
+            
+            if($delete){
+                $this->session->set_userdata('success_msg', 'Class data has been removed successfully.');
+                redirect('principals/manageClass'); 
+            }else{
+                $this->session->set_userdata('error_msg', 'Some problems occured, please try again.');
+                redirect('principals/manageClass'); 
+            }
+        }
+        
+        // Redirect to the list page
+        redirect('principals/manageClass');
+    }
+
+    /* manage-class */
+    public function manageSection(){
+        $data = $userData = array();
+        $conditions['returnType'] = '';
+        $data['title']  = 'Manage Section';
+
+        $data['clst'] = $this->teacher->getRows($conditions);
+        $data['cls'] = $this->principal->getClass($conditions);
+        $data['sec'] = $this->principal->getSection($conditions);
+        $data['sub'] = $this->principal->getSubject($conditions);
+
+        // If registration request is submitted 
+        if($this->input->post('addSection')){ 
+            $this->form_validation->set_rules('sectionName', 'Section Name', 'required'); 
+            $this->form_validation->set_rules('nickName', 'Nick Name', 'required'); 
+            $this->form_validation->set_rules('tid', 'Teacher Name', 'required');
+            $this->form_validation->set_rules('cid', 'Class Name', 'required');
+            $this->form_validation->set_rules('sid', 'Class Name', 'required');
+ 
+            $userData = array( 
+                'sectionName' => strip_tags($this->input->post('sectionName')), 
+                'nickName' => strip_tags($this->input->post('nickName')), 
+                'tid' => strip_tags($this->input->post('tid')),
+                'cid' => strip_tags($this->input->post('cid')),
+                'sid' => strip_tags($this->input->post('sid'))
+            ); 
+ 
+            if($this->form_validation->run() == true){ 
+                $insert = $this->principal->addSection($userData); 
+                if($insert){ 
+                    $this->session->set_userdata('success_msg', 'Your account registration has been successful. Please login to your account.'); 
+                    redirect('principals/manageSection'); 
+                }else{ 
+                    $data['error_msg'] = 'Some problems occured, please try again.'; 
+                } 
+            }else{ 
+                $data['error_msg'] = 'Please fill all the mandatory fields.'; 
+            } 
+        } 
+         
+        // Posted data 
+        $data['principal'] = $userData;
+
+        // Load the details page view
+            if($this->isUserLoggedIn){ 
+                $con = array( 
+                    'id' => $this->session->userdata('userId') 
+                    ); 
+                $data['principal'] = $this->principal->getRows($con); 
+                $this->load->view('principal/header', $data);
+                $this->load->view('principal/manageSection', $data);
+                $this->load->view('principal/footer');
+            }
+    }
+
+    /* delete Subject record */
+    public function deleteSection($id){
+        // Check whether member id is not empty
+        if($id){
+            // Delete member
+            $delete = $this->principal->deleteSection($id);
+            
+            if($delete){
+                $this->session->set_userdata('success_msg', 'Class data has been removed successfully.');
+                redirect('principals/manageSection'); 
+            }else{
+                $this->session->set_userdata('error_msg', 'Some problems occured, please try again.');
+                redirect('principals/manageSection'); 
+            }
+        }
+        
+        // Redirect to the list page
+        redirect('principals/addSubject');
     }
 
 }

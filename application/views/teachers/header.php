@@ -169,7 +169,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </a>
               <div class="collapse" id="pages">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href=""> All Class & Section</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('teachers/sectionClass'); ?>"> All Class & Section</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('teachers/allStudents'); ?>"> All Students</a></li>
                   <li class="nav-item"> <a class="nav-link" href=""> Students Attendance</a></li>
                 </ul>

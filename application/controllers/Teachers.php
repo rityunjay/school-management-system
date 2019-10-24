@@ -9,6 +9,7 @@ class Teachers extends CI_Controller {
         // Load member model
         $this->load->model('teacher');
         $this->load->model('student'); 
+        $this->load->model('principal'); 
          
         // User login status 
         $this->isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
@@ -429,6 +430,30 @@ class Teachers extends CI_Controller {
         }else{
             redirect('teachers');
         }
+    }
+
+    // teachers details
+    public function sectionClass(){ 
+        $data = $userData = array();
+        $conditions['returnType'] = '';
+        $data['title']  = 'Class & Section';
+
+        $data['clst'] = $this->teacher->getRows($conditions);
+        $data['cls'] = $this->principal->getClass($conditions);
+        $data['sec'] = $this->principal->getSection($conditions);
+        $data['sub'] = $this->principal->getSubject($conditions);
+
+
+        // Load the details page view
+            if($this->isUserLoggedIn){ 
+                $con = array( 
+                    'id' => $this->session->userdata('userId') 
+                    ); 
+                $data['teacher'] = $this->teacher->getRows($con); 
+                $this->load->view('teachers/header', $data);
+                $this->load->view('teachers/sectionClass', $data);
+                $this->load->view('teachers/footer');
+            }
     }
 
 }
