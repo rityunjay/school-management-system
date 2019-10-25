@@ -1030,10 +1030,10 @@ class Principals extends CI_Controller {
             
             if($delete){
                 $this->session->set_userdata('success_msg', 'Class data has been removed successfully.');
-                redirect('principals/manageSection'); 
+                redirect('principals/manageSection/'); 
             }else{
                 $this->session->set_userdata('error_msg', 'Some problems occured, please try again.');
-                redirect('principals/manageSection'); 
+                redirect('principals/manageSection/'); 
             }
         }
         

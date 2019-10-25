@@ -256,12 +256,25 @@ class Principal extends CI_Model{
 
     /* display class data */
     function getSection($params = array()){ 
-        $this->db->select('*'); 
+        /*$this->db->select('*'); 
         $this->db->from($this->teacherTable); 
         $this->db->join($this->classTable, 'gt_teachers.id = gt_stdClass.tid'); 
         $this->db->join($this->sectionTable, 'gt_stdSection.cid = gt_stdClass.id');
-        $this->db->join($this->subjectTable, 'gt_clsSubject.tid = gt_stdClass.tid');  
-         
+        $this->db->join($this->subjectTable, 'gt_clsSubject.tid = gt_stdClass.tid');*/ 
+
+        $this->db->select('*'); 
+        $this->db->from($this->sectionTable); 
+        $this->db->join($this->teacherTable, 'gt_teachers.id = gt_stdSection.tid'); 
+        $this->db->join($this->classTable, 'gt_stdClass.id = gt_stdSection.cid');
+        $this->db->join($this->subjectTable, 'gt_clsSubject.tid = gt_teachers.id');
+
+       /* $this->db->select('*');
+        $this->db->from($this->sectionTable); 
+        $this->db->join($this->classTable, 'gt_stdClass.tid = gt_stdSection.tid');
+        $this->db->join($this->teacherTable, 'gt_teachers.id = gt_stdSection.tid');
+        $this->db->join($this->subjectTable, 'gt_clsSubject.tid = gt_stdSection.tid', 'left');*/
+        //$this->db->where('s.tid','t.id');
+
         if(array_key_exists("conditions", $params)){ 
             foreach($params['conditions'] as $key => $val){ 
                 $this->db->where($key, $val); 
@@ -324,7 +337,6 @@ class Principal extends CI_Model{
 
         // Return the status
         return $delete?true:false;
-    } 
-    
+    }    
     
 }
