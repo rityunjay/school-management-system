@@ -49,6 +49,7 @@
                             <th> First Name </th>
                             <th> Last Name </th>
                             <th> Email </th>
+                            <th> Status </th>
                             <th> Action </th>
                         </tr>
                       </thead>
@@ -64,10 +65,15 @@
                             <?php echo $row['last_name']; ?>
                           </td>
                           <td> <?php echo $row['email']; ?> </td>
+                          <?php 
+                            $statusLink = ($row['status'] == 1)?site_url('students/block/'.$row['id']):site_url('students/unblock/'.$row['id']);  
+                            $statusTooltip = ($row['status'] == 1)?'Click to Inactive':'Click to Active'; 
+                           ?>
+                          <td><a href="<?php echo $statusLink; ?>" title="<?php echo $statusTooltip; ?>"><span class="badge <?php echo ($row['status'] == 1)?'badge badge-success p-2':'badge badge-danger p-2'; ?>"><?php echo ($row['status'] == 1)?'Active':'Inactive'; ?></span></a></td>
                           <td> 
-                            <a href="<?php echo site_url('principals/view/'.$row['id']); ?>" class="btn btn-primary"><i class="icon-eye"></i></a>
-                            <a href="<?php echo site_url('principals/edit/'.$row['id']); ?>" class="btn btn-warning"><i class="icon-pencil"></i></a>
-                            <a href="<?php echo site_url('principals/deleteTeacherRecord/'.$row['id']); ?>" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')"><i class="icon-trash"></i></a>
+                            <a href="<?php echo site_url('students/view/'.$row['id']); ?>" class="btn btn-primary btn-sm"><i class="icon-eye"></i></a>
+                            <a href="<?php echo site_url('students/edit/'.$row['id']); ?>" class="btn btn-warning btn-sm"><i class="icon-pencil"></i></a>
+                            <a href="<?php echo site_url('students/deleteStudentRecord/'.$row['id']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete?')"><i class="icon-trash"></i></a>
                           </td>
                         </tr>
                         <?php } ?>

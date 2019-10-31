@@ -104,10 +104,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </li>
             <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
               <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                <img class="img-xs rounded-circle ml-2" src="<?php echo base_url('/assets/images/faces/face8.jpg');?>" alt="Profile image"> <span class="font-weight-normal"> <?php echo $teacher['first_name']; ?> </span></a>
+                <img class="img-xs rounded-circle ml-2" src="<?php echo base_url('/assets/images/faces/teacher/'.$teacher['profilePic']); ?>" alt="Profile image"> <span class="font-weight-normal"> <?php echo $teacher['first_name']; ?> </span></a>
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                 <div class="dropdown-header text-center">
-                  <img class="img-md rounded-circle" src="<?php echo base_url('/assets/images/faces/face8.jpg');?>" alt="Profile image">
+                  <img class="img-md rounded-circle" src="<?php echo base_url('/assets/images/faces/teacher/'.$teacher['profilePic']); ?>" alt="Profile image">
                   <p class="mb-1 mt-3"><?php echo $teacher['first_name']; ?></p>
                   <p class="font-weight-light text-muted mb-0"><?php echo $teacher['email']; ?></p>
                 </div>
@@ -133,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="profile-image">
-                  <img class="img-xs rounded-circle" src="<?php echo base_url('/assets/images/faces/face8.jpg');?>" alt="profile image">
+                  <img class="img-xs rounded-circle" src="<?php echo base_url('/assets/images/faces/teacher/'.$teacher['profilePic']); ?>" alt="profile image">
                   <div class="dot-indicator bg-success"></div>
                 </div>
                 <div class="text-wrapper">
@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </a>
             </li>
              <li class="nav-item">
-              <a class="nav-link" href="">
+              <a class="nav-link" href="<?php echo base_url('teachers/leaveCard/') ?>">
                 <span class="menu-title">Leave & Attendance</span>
                 <i class="icon-screen-desktop menu-icon"></i>
               </a>

@@ -10,6 +10,7 @@ class Principal extends CI_Model{
         $this->subjectTable = 'gt_clsSubject';
         $this->classTable = 'gt_stdClass';
         $this->sectionTable = 'gt_stdSection';
+        $this->parentTable = 'gt_parents';
     }
     
     /*
@@ -67,7 +68,7 @@ class Principal extends CI_Model{
         }
         return false;
     }
-
+ 
 
     /* 
      * Insert Teacher data into the database 
@@ -248,7 +249,14 @@ class Principal extends CI_Model{
     /* delete designation record */
     public function deleteClass($id){
         // Delete member data
-        $delete = $this->db->delete($this->classTable, array('id' => $id));
+        //$delete = $this->db->delete($this->classTable, array('id' => $id));
+        $delete = "DELETE gt_stdClass,gt_stdSection 
+        FROM gt_stdClass,gt_stdSection 
+        WHERE gt_stdClass.id = gt_stdSection.cid 
+        AND gt_stdClass.id = ?";
+
+        $this->db->query($delete, array($id));
+
 
         // Return the status
         return $delete?true:false;

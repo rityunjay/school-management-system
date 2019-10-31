@@ -45,7 +45,7 @@ class Teachers extends CI_Controller {
 
     /* teachert-profile */
     public function teacherProfile($id){
-        $data = array();
+        /*$data = array();
         
         // Check whether member id is not empty
         if(!empty($id)){
@@ -64,7 +64,151 @@ class Teachers extends CI_Controller {
             }
         }else{
             redirect('teachers');
+        }*/
+
+        $data = $memData = array();
+       // $conditions['returnType'] = '';
+        
+        // Get member data
+        $data['teachs'] = $this->teacher->getRows(array('id' => $id));
+        //$data['query'] = $this->principal->getParent(array('pid' => $id));
+        $data['title']  = 'User Profile';
+
+
+        // If update request is submitted
+        if($this->input->post('updateProfile')){
+            // Form field validation rules
+            $this->form_validation->set_rules('first_name', 'first name', 'required');
+            $this->form_validation->set_rules('last_name', 'last name', 'required');
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+            
+            
+        if($_FILES['userfile']['name']!=""){
+            $config['upload_path'] = './assets/images/faces/teacher';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = '2048';
+            $config['max_width'] = '2000';
+            $config['max_height'] = '2000';
+
+            $this->load->library('upload', $config);
+            if(!$this->upload->do_upload()){
+                $errors = array('error' => $this->upload->display_errors());
+                $post_image = 'noimage.jpg';
+                // Prepare member data
+                $memData = array(
+                    'first_name'    => strip_tags($this->input->post('first_name')),
+                    'last_name'     => strip_tags($this->input->post('last_name')),
+                    'email'         => strip_tags($this->input->post('email')),
+                    'mobile'        => strip_tags($this->input->post('mobile')),
+                    'gender'        => strip_tags($this->input->post('gender')),
+                    'mStatus'       => strip_tags($this->input->post('mStatus')),
+                    'profilePic'    => strip_tags($post_image)
+                );
+            }else{
+                $data = array('upload_data' => $this->upload->data());
+                $post_image = $_FILES['userfile']['name'];
+                //$post_image = $data['userfile'];
+                // Prepare member data
+                $memData = array(
+                    'first_name'  => strip_tags($this->input->post('first_name')),
+                    'last_name'   => strip_tags($this->input->post('last_name')),
+                    'email'       => strip_tags($this->input->post('email')),
+                    'mobile'      => strip_tags($this->input->post('mobile')),
+                    'gender'      => strip_tags($this->input->post('gender')),
+                    'mStatus'     => strip_tags($this->input->post('mStatus')),
+                    'profilePic'  => strip_tags($post_image)
+                );
+            }
+        }else{
+            $memData = array(
+                'first_name'  => strip_tags($this->input->post('first_name')),
+                'last_name'   => strip_tags($this->input->post('last_name')),
+                'email'       => strip_tags($this->input->post('email')),
+                'mobile'      => strip_tags($this->input->post('mobile')),
+                'gender'      => strip_tags($this->input->post('gender')),
+                'mStatus'     => strip_tags($this->input->post('mStatus')),
+                'profilePic'  => strip_tags($this->input->post('old'))
+            );
         }
+            
+
+
+            // Validate submitted form data
+            if($this->form_validation->run() == true){
+                // Update member data
+                $update = $this->teacher->updateProfile($memData, $id);
+                //$qry = $this->principal->insertParent($perData);
+
+                if($update){
+                    $this->session->set_userdata('update_msg', 'Member has been updated successfully.');
+                    redirect('/teachers/teacherProfile/'.$id);
+                }else{
+                    $data['update_error_msg'] = 'Some problems occured, please try again.';
+                }
+            }
+        }
+
+        // parent detail update
+        // If update request is submitted
+        if($this->input->post('submit')){
+            // Form field validation rules
+            $this->form_validation->set_rules('fatherName', 'Father Name', 'required');
+            $this->form_validation->set_rules('motherName', 'Mother Name', 'required');
+            $this->form_validation->set_rules('fatherEmail', 'Father Email', 'required|valid_email');
+            $perData = array(
+                'fatherName'  => strip_tags($this->input->post('fatherName')),
+                'motherName'  => strip_tags($this->input->post('motherName')),
+                'fatherEmail'  => strip_tags($this->input->post('fatherEmail')),
+                'fatherOccupation'  => strip_tags($this->input->post('fatherOccupation')),
+                'fatherMobile'  => strip_tags($this->input->post('fatherMobile')),
+                'motherOccupation'  => strip_tags($this->input->post('motherOccupation')),
+                'address'  => strip_tags($this->input->post('address'))
+            );
+        }   
+        // Validate submitted form data
+            if($this->form_validation->run() == true){
+                // Update member data
+                $update = $this->teacher->updateProfile($perData, $id);
+
+                if($update){
+                    $this->session->set_userdata('success_msg', 'Member has been updated successfully.');
+                    redirect('/teachers/teacherProfile/'.$id);
+                }else{
+                    $data['error_msg'] = 'Some problems occured, please try again.';
+                }
+            }
+
+        $data['member'] = $memData;
+        $data['title'] = 'Update Member';
+        
+        // Load the edit page view
+        if($this->isUserLoggedIn){ 
+            $con = array( 
+                'id' => $this->session->userdata('userId') 
+                ); 
+            $data['teacher'] = $this->teacher->getRows($con);  
+            $this->load->view('teachers/header', $data);
+            $this->load->view('teachers/teacherProfile', $data);
+            $this->load->view('teachers/footer');
+        }
+    }
+
+    // teachers details
+    public function leaveCard(){ 
+        $data = array(); 
+        if($this->isUserLoggedIn){ 
+            $con = array( 
+                'id' => $this->session->userdata('userId') 
+            ); 
+            $data['teacher'] = $this->teacher->getRows($con); 
+            $data['title']  = 'Leave Card'; 
+            // Pass the user data and load view 
+            $this->load->view('teachers/header', $data); 
+            $this->load->view('teachers/leaveCard', $data); 
+            $this->load->view('teachers/footer'); 
+        }else{ 
+            redirect('teachers/login'); 
+        } 
     }
 
     //teachers details

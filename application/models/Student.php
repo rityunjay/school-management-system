@@ -59,6 +59,54 @@ class Student extends CI_Model{
     }
 
     /* 
+     * Insert user data into the database 
+     * @param $data data to be inserted 
+     */ 
+    public function insert($data = array()) { 
+        if(!empty($data)){ 
+            // Add created and modified date if not included 
+            if(!array_key_exists("created", $data)){ 
+                $data['created'] = date("Y-m-d H:i:s"); 
+            } 
+            if(!array_key_exists("modified", $data)){ 
+                $data['modified'] = date("Y-m-d H:i:s"); 
+            } 
+             
+            // Insert member data 
+            $insert = $this->db->insert($this->table, $data); 
+             
+            // Return the status 
+            return $insert?$this->db->insert_id():false; 
+        } 
+        return false; 
+    } 
+
+    public function updateStudent($data, $id) {
+        if(!empty($data) && !empty($id)){
+            // Add modified date if not included
+            if(!array_key_exists("modified", $data)){
+                $data['modified'] = date("Y-m-d H:i:s");
+            }
+            
+            // Update member data
+            $update = $this->db->update($this->table, $data, array('id' => $id));
+            
+            // Return the status
+            return $update?true:false;
+        }
+        return false;
+    }
+
+    /* delete teacher record */
+    public function deleteStudent($id){
+        // Delete member data
+        $delete = $this->db->delete($this->table, array('id' => $id));
+        
+        // Return the status
+        return $delete?true:false;
+    }
+
+    /* 
      * Insert Teacher data into the database 
      * @param $data data to be inserted 
      */ 

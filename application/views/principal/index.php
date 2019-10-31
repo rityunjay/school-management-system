@@ -69,7 +69,7 @@
                           <td> <?php echo $row['email']; ?> </td>
                           <td> <?php echo $row['mobile']; ?> </td>
                           <td> <?php echo $row['gender']; ?> </td>
-                          <td> <?php echo $row['desigName']; ?> </td>
+                          <td> <?php echo $row['subjectName']; ?> </td>
                           <!-- <td>
                             <?php if($row['status'] == 1){?>
                               <div class="badge badge-success p-2">Active</div>

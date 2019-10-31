@@ -27,8 +27,11 @@
                     <div class="row report-inner-cards-wrapper">
                       <div class=" col-md -6 col-xl report-inner-card">
                         <div class="inner-card-text">
-                          <span class="report-title">EXPENSE</span>
-                          <h4>$32123</h4>
+                          <span class="report-title">TOTAL TEACHERS</span>
+                          <h4>
+                            <?php $query = $this->db->query('SELECT * FROM gt_teachers');
+                              echo $query->num_rows(); ?>
+                          </h4>
                           <span class="report-count"> 2 Reports</span>
                         </div>
                         <div class="inner-card-icon bg-success">
@@ -37,8 +40,11 @@
                       </div>
                       <div class="col-md-6 col-xl report-inner-card">
                         <div class="inner-card-text">
-                          <span class="report-title">PURCHASE</span>
-                          <h4>95,458</h4>
+                          <span class="report-title">TOTAL STUDENTS</span>
+                          <h4>
+                            <?php $query = $this->db->query('SELECT * FROM gt_students');
+                              echo $query->num_rows(); ?>
+                          </h4>
                           <span class="report-count"> 3 Reports</span>
                         </div>
                         <div class="inner-card-icon bg-danger">
@@ -47,8 +53,11 @@
                       </div>
                       <div class="col-md-6 col-xl report-inner-card">
                         <div class="inner-card-text">
-                          <span class="report-title">QUANTITY</span>
-                          <h4>2650</h4>
+                          <span class="report-title">TOTAL STAFF</span>
+                          <h4>
+                            <?php $query = $this->db->query('SELECT * FROM gt_staff');
+                              echo $query->num_rows(); ?>
+                          </h4>
                           <span class="report-count"> 5 Reports</span>
                         </div>
                         <div class="inner-card-icon bg-warning">

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 17, 2019 at 11:40 AM
+-- Generation Time: Oct 31, 2019 at 08:47 PM
 -- Server version: 5.7.27-0ubuntu0.18.04.1
--- PHP Version: 7.2.21-1+ubuntu18.04.1+deb.sury.org+1
+-- PHP Version: 7.2.24-1+ubuntu18.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -38,24 +38,68 @@ CREATE TABLE `gt_attendance` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gt_designation`
+-- Table structure for table `gt_clsSubject`
 --
 
-CREATE TABLE `gt_designation` (
+CREATE TABLE `gt_clsSubject` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `desigName` varchar(255) NOT NULL,
+  `tid` int(11) NOT NULL,
+  `subjectName` varchar(255) NOT NULL,
   `created_date` datetime NOT NULL,
   `modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `gt_designation`
+-- Dumping data for table `gt_clsSubject`
 --
 
-INSERT INTO `gt_designation` (`id`, `user_id`, `desigName`, `created_date`, `modified`) VALUES
-(9, 1, 'physics', '2019-10-13 19:12:27', '2019-10-13 19:12:27'),
-(10, 1, 'chemistry', '2019-10-13 19:12:47', '2019-10-13 19:12:47');
+INSERT INTO `gt_clsSubject` (`id`, `user_id`, `tid`, `subjectName`, `created_date`, `modified`) VALUES
+(19, 1, 19, 'Math', '2019-10-24 12:16:50', '2019-10-24 12:16:50'),
+(20, 1, 18, 'hindi', '2019-10-25 11:38:54', '2019-10-25 11:38:54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gt_gallery`
+--
+
+CREATE TABLE `gt_gallery` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active | 0=Inactive'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `gt_gallery`
+--
+
+INSERT INTO `gt_gallery` (`id`, `title`, `created`, `modified`, `status`) VALUES
+(9, 'adobe', '2019-10-23 17:36:51', '2019-10-23 17:40:08', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gt_gallery_images`
+--
+
+CREATE TABLE `gt_gallery_images` (
+  `id` int(11) NOT NULL,
+  `gallery_id` int(11) NOT NULL,
+  `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `uploaded_on` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `gt_gallery_images`
+--
+
+INSERT INTO `gt_gallery_images` (`id`, `gallery_id`, `file_name`, `uploaded_on`) VALUES
+(7, 9, 'itagree-banner.jpg', '2019-10-23 17:36:51'),
+(8, 9, 'itagree-logo.png', '2019-10-23 17:36:51'),
+(9, 9, 'itagree-th.jpg', '2019-10-23 17:36:51');
 
 -- --------------------------------------------------------
 
@@ -90,6 +134,28 @@ INSERT INTO `gt_members` (`id`, `first_name`, `last_name`, `email`, `memberPic`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `gt_parents`
+--
+
+CREATE TABLE `gt_parents` (
+  `id` int(11) NOT NULL,
+  `sid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `tid` int(11) NOT NULL,
+  `fatherName` varchar(255) NOT NULL,
+  `motherName` varchar(255) NOT NULL,
+  `fatherOccupation` varchar(255) NOT NULL,
+  `motherOccupation` varchar(255) NOT NULL,
+  `fatherEmail` varchar(255) NOT NULL,
+  `fatherMobile` int(11) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `created_date` date NOT NULL,
+  `modified` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `gt_principal`
 --
 
@@ -98,7 +164,18 @@ CREATE TABLE `gt_principal` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `profilePic` varchar(255) NOT NULL,
+  `mobile` varchar(11) NOT NULL,
+  `gender` varchar(6) NOT NULL,
+  `mStatus` varchar(11) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `fatherName` varchar(255) NOT NULL,
+  `motherName` varchar(255) NOT NULL,
+  `fatherOccupation` varchar(255) NOT NULL,
+  `fatherEmail` varchar(255) NOT NULL,
+  `fatherMobile` varchar(255) NOT NULL,
+  `motherOccupation` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `role` tinyint(1) NOT NULL,
   `created` datetime NOT NULL,
@@ -109,8 +186,21 @@ CREATE TABLE `gt_principal` (
 -- Dumping data for table `gt_principal`
 --
 
-INSERT INTO `gt_principal` (`id`, `first_name`, `last_name`, `email`, `password`, `status`, `role`, `created`, `modified`) VALUES
-(1, 'test', 'test', 'test@tester.com', '202cb962ac59075b964b07152d234b70', 1, 1, '2019-10-12 10:30:11', '2019-10-12 10:30:11');
+INSERT INTO `gt_principal` (`id`, `first_name`, `last_name`, `email`, `profilePic`, `mobile`, `gender`, `mStatus`, `password`, `fatherName`, `motherName`, `fatherOccupation`, `fatherEmail`, `fatherMobile`, `motherOccupation`, `address`, `status`, `role`, `created`, `modified`) VALUES
+(1, 'test', 'test', 'test@tester.com', 'Italo-Adami.jpg', '1236547890', 'male', 'married', '202cb962ac59075b964b07152d234b70', 'test', 'test', 'service', 'test@tester.com', '1236547890', 'house wife', '12-t durgapur', 1, 1, '2019-10-12 10:30:11', '2019-10-31 20:23:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gt_staff`
+--
+
+CREATE TABLE `gt_staff` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` date NOT NULL,
+  `modifydate` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -120,19 +210,44 @@ INSERT INTO `gt_principal` (`id`, `first_name`, `last_name`, `email`, `password`
 
 CREATE TABLE `gt_stdClass` (
   `id` int(11) NOT NULL,
-  `class` varchar(11) NOT NULL,
-  `roll` int(11) NOT NULL,
-  `session` year(4) NOT NULL,
-  `stdID` int(11) NOT NULL
+  `className` varchar(11) NOT NULL,
+  `numericName` varchar(11) NOT NULL,
+  `tid` int(11) NOT NULL,
+  `created_date` datetime NOT NULL,
+  `modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `gt_stdClass`
 --
 
-INSERT INTO `gt_stdClass` (`id`, `class`, `roll`, `session`, `stdID`) VALUES
-(1, '1', 123321123, 2012, 1),
-(2, '2', 123654258, 2012, 2);
+INSERT INTO `gt_stdClass` (`id`, `className`, `numericName`, `tid`, `created_date`, `modified`) VALUES
+(9, 'First', '1', 19, '2019-10-29 12:57:24', '2019-10-29 12:57:24'),
+(10, 'Second', '2', 19, '2019-10-29 14:45:27', '2019-10-29 14:45:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gt_stdSection`
+--
+
+CREATE TABLE `gt_stdSection` (
+  `id` int(11) NOT NULL,
+  `sectionName` varchar(11) NOT NULL,
+  `nickName` varchar(11) NOT NULL,
+  `cid` int(11) NOT NULL,
+  `tid` int(11) NOT NULL,
+  `sid` int(11) NOT NULL,
+  `created_date` datetime NOT NULL,
+  `modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `gt_stdSection`
+--
+
+INSERT INTO `gt_stdSection` (`id`, `sectionName`, `nickName`, `cid`, `tid`, `sid`, `created_date`, `modified`) VALUES
+(14, 'Section B', 'Sec B', 9, 18, 18, '2019-10-29 14:45:12', '2019-10-29 14:45:12');
 
 -- --------------------------------------------------------
 
@@ -145,26 +260,16 @@ CREATE TABLE `gt_students` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `gender` varchar(1) NOT NULL,
+  `mobile` int(11) NOT NULL,
   `profilePic` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `role` tinyint(1) NOT NULL,
+  `terms` tinyint(4) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `gt_students`
---
-
-INSERT INTO `gt_students` (`id`, `first_name`, `last_name`, `email`, `profilePic`, `password`, `status`, `role`, `created`, `modified`) VALUES
-(1, 'test', 'test', 'test@tester.com', '', '202cb962ac59075b964b07152d234b70', 1, 3, '2019-10-13 12:59:25', '2019-10-13 12:59:25'),
-(2, 'sohan', 'kumar', 'sohan@example.com', '', '123', 1, 3, '2019-10-16 06:00:00', '2019-10-16 06:00:00'),
-(3, 'mohan', 'kumar', 'test@tester.com', '', '123', 1, 3, '2019-10-16 06:00:00', '2019-10-16 06:00:00'),
-(4, 'test', 'test', 'test@tester.com', '', '123', 1, 3, '2019-10-16 06:00:00', '2019-10-16 06:00:00'),
-(5, 'test', 'test', 'test@tester.com', '', '123', 1, 3, '2019-10-16 06:00:00', '2019-10-16 06:00:00'),
-(6, 'rohan', 'roy', 'rohanroy@sms.com', '', '123', 1, 3, '2019-10-16 07:20:27', '2019-10-16 07:20:27'),
-(7, 'raj', 'mehta', 'rajmehta@sms.com', '', '123', 1, 3, '2019-10-16 07:20:27', '2019-10-16 07:20:27');
 
 -- --------------------------------------------------------
 
@@ -177,9 +282,19 @@ CREATE TABLE `gt_teachers` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `desigID` int(11) NOT NULL,
+  `subjectName` varchar(255) NOT NULL,
   `gender` varchar(11) NOT NULL,
+  `mStatus` varchar(11) NOT NULL,
+  `mobile` varchar(11) NOT NULL,
+  `profilePic` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `fatherName` varchar(255) NOT NULL,
+  `motherName` varchar(255) NOT NULL,
+  `fatherOccupation` varchar(255) NOT NULL,
+  `fatherEmail` varchar(255) NOT NULL,
+  `fatherMobile` varchar(255) NOT NULL,
+  `motherOccupation` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL,
   `role` tinyint(4) NOT NULL,
   `created_date` datetime NOT NULL,
@@ -190,13 +305,9 @@ CREATE TABLE `gt_teachers` (
 -- Dumping data for table `gt_teachers`
 --
 
-INSERT INTO `gt_teachers` (`id`, `first_name`, `last_name`, `email`, `desigID`, `gender`, `password`, `status`, `role`, `created_date`, `modified`) VALUES
-(10, 'mohan', 'kumar', 'mohan@gmail.com', 13, 'male', '202cb962ac59075b964b07152d234b70', 1, 2, '2019-10-13 21:28:43', '2019-10-13 21:28:43'),
-(11, 'test', 'test', 'test@tester.com', 10, 'male', '202cb962ac59075b964b07152d234b70', 1, 2, '2019-10-14 11:51:46', '2019-10-14 11:51:46'),
-(12, 'test', 'test', 'test2@tester.com', 9, 'female', '202cb962ac59075b964b07152d234b70', 1, 2, '2019-10-14 11:53:00', '2019-10-14 11:53:00'),
-(13, 'test', 'test', 'test3@tester.com', 10, 'female', '202cb962ac59075b964b07152d234b70', 1, 2, '2019-10-14 11:53:28', '2019-10-14 11:53:28'),
-(14, 'test', 'test', 'test4@tester.com', 10, 'male', '202cb962ac59075b964b07152d234b70', 1, 2, '2019-10-14 11:53:50', '2019-10-14 11:53:50'),
-(15, 'test', 'test', 'test6@tester.com', 10, 'female', '202cb962ac59075b964b07152d234b70', 1, 2, '2019-10-14 11:54:10', '2019-10-14 11:54:10');
+INSERT INTO `gt_teachers` (`id`, `first_name`, `last_name`, `email`, `subjectName`, `gender`, `mStatus`, `mobile`, `profilePic`, `password`, `fatherName`, `motherName`, `fatherOccupation`, `fatherEmail`, `fatherMobile`, `motherOccupation`, `address`, `status`, `role`, `created_date`, `modified`) VALUES
+(18, 'rohan1', 'teacher', 'test@tester.com', 'math', 'male', 'unmarried', '9638527410', 'face6.jpg', '202cb962ac59075b964b07152d234b70', 'test', 'test', 'test', 'test@tester.com', '3698521470', 'test', 'test', 1, 0, '2019-10-21 18:32:06', '2019-10-31 17:31:37'),
+(19, 'vishal', 'bhardwaj', 'vishal@gmail.com', 'math', '', '', '', '', '202cb962ac59075b964b07152d234b70', '', '', '', '', '', '', '', 0, 2, '2019-10-22 11:27:38', '2019-10-31 20:22:49');
 
 -- --------------------------------------------------------
 
@@ -235,15 +346,33 @@ ALTER TABLE `gt_attendance`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `gt_designation`
+-- Indexes for table `gt_clsSubject`
 --
-ALTER TABLE `gt_designation`
+ALTER TABLE `gt_clsSubject`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `gt_gallery`
+--
+ALTER TABLE `gt_gallery`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `gt_gallery_images`
+--
+ALTER TABLE `gt_gallery_images`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `gt_members`
 --
 ALTER TABLE `gt_members`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `gt_parents`
+--
+ALTER TABLE `gt_parents`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -256,6 +385,12 @@ ALTER TABLE `gt_principal`
 -- Indexes for table `gt_stdClass`
 --
 ALTER TABLE `gt_stdClass`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `gt_stdSection`
+--
+ALTER TABLE `gt_stdSection`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -286,15 +421,30 @@ ALTER TABLE `gt_users`
 ALTER TABLE `gt_attendance`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `gt_designation`
+-- AUTO_INCREMENT for table `gt_clsSubject`
 --
-ALTER TABLE `gt_designation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `gt_clsSubject`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT for table `gt_gallery`
+--
+ALTER TABLE `gt_gallery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `gt_gallery_images`
+--
+ALTER TABLE `gt_gallery_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `gt_members`
 --
 ALTER TABLE `gt_members`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `gt_parents`
+--
+ALTER TABLE `gt_parents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `gt_principal`
 --
@@ -304,17 +454,22 @@ ALTER TABLE `gt_principal`
 -- AUTO_INCREMENT for table `gt_stdClass`
 --
 ALTER TABLE `gt_stdClass`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `gt_stdSection`
+--
+ALTER TABLE `gt_stdSection`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `gt_students`
 --
 ALTER TABLE `gt_students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `gt_teachers`
 --
 ALTER TABLE `gt_teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `gt_users`
 --
