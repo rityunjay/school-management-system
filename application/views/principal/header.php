@@ -112,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <img class="img-xs rounded-circle ml-2" src="<?php echo base_url('/assets/images/faces/principal/'.$principal['profilePic']); ?>" alt="Profile image"> <span class="font-weight-normal"> <?php echo $principal['first_name']; ?> </span></a>
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                 <div class="dropdown-header text-center">
-                  <img class="img-md rounded-circle" src="<?php echo base_url('/assets/images/faces/principal/'.$principal['profilePic']); ?>" alt="Profile image">
+                  <img class="img-sm rounded-circle" src="<?php echo base_url('/assets/images/faces/principal/'.$principal['profilePic']); ?>" alt="Profile image">
                   <p class="mb-1 mt-3"><?php echo $principal['first_name']; ?></p>
                   <p class="font-weight-light text-muted mb-0"><?php echo $principal['email']; ?></p>
                 </div>

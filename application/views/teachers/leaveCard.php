@@ -63,12 +63,43 @@
 
    <div class="row card">
       <div class="card-body">
-         <input type="date" name="" class="form-control">
+         <input type="text" id="from" readonly>
+<label>TO</label>
+<input type="text" id="to" readonly>
       </div>
    </div>
 </div>
 
+<link href="http://demos.codexworld.com/bootstrap-datetimepicker-add-date-time-picker-input-field/css/bootstrap-datetimepicker.css" rel="stylesheet">
+<script src="http://demos.codexworld.com/bootstrap-datetimepicker-add-date-time-picker-input-field/js/bootstrap-datetimepicker.min.js"></script>
 
 
+<script>
+    var today = new Date();
+    $('#from').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        autoclose: true,
+        todayBtn: true,
+        startDate : today
+    }).on('changeDate', function(ev){
+        $('#to').datetimepicker('setStartDate', ev.date);
+    });
+    
+    $('#to').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        autoclose: true,
+        todayBtn: true,
+        startDate : today
+    }).on('changeDate', function(ev){
+        $('#from').datetimepicker('setEndDate', ev.date);
+    });
+</script>
 
+<!-- jQuery library -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
+<!-- Bootstrap library -->
+<link href="http://demos.codexworld.com/includes/css/bootstrap.css" rel="stylesheet">
+<script src="http://demos.codexworld.com/includes/js/bootstrap.js"></script>
+
+            

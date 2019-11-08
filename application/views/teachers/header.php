@@ -183,7 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </a>
               <div class="collapse" id="posts">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('admin/posts/'); ?>"> All Post </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('teachers/contact/'); ?>"> Contact </a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('admin/posts/create/'); ?>"> Add Post </a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?php echo base_url('admin/categories/'); ?>"> Categories </a></li>
                   <li class="nav-item"> <a class="nav-link" href=""> Tags </a></li>
