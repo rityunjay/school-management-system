@@ -73,6 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div id="body">
 		<ul>
 			<li><a href="<?php echo base_url('/users/login'); ?>">Admin</a></li>
+			<li><a href="<?php echo base_url('/organisation/login'); ?>">Organisation</a></li>
 			<li><a href="<?php echo base_url('/members/login'); ?>">Members</a></li>
 			<li><a href="<?php echo base_url('/principals/login'); ?>">Principal</a></li>
 			<li><a href="<?php echo base_url('/teachers/login'); ?>">Teachers</a></li>
